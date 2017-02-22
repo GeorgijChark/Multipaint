@@ -46,18 +46,15 @@ public class Message {
         Font font = new Font("Times New Roman", 2, 20);
         FontRenderContext frc = g.getFontRenderContext();
         TextLayout time = new TextLayout(this.time + " ", font, frc);
-        time.draw(g, 5, y);
+        time.draw(g, 6, y);
 
         g.setColor(new Color(10, 250, 10));
         if (sender.equals("Server"))
             g.setColor(new Color(250, 10, 10));
-
         if (sender.equals("System"))
             g.setColor(new Color(0, 0, 255));
-
         if (sender.equals("Me"))
             g.setColor(new Color(200, 250, 250));
-
         if (sender.equals("Paint"))
             g.setColor(new Color(255, 232, 0));
 
