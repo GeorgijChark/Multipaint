@@ -40,7 +40,6 @@ public class Message {
             g.setColor(new Color(10, 100, 200));
         if (sender.equals("Me"))
             g.setColor(new Color(150, 170, 170));
-
         if (sender.equals("Paint"))
             g.setColor(new Color(223, 200, 0));
 
