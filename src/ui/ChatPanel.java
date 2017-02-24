@@ -17,16 +17,13 @@ public class ChatPanel extends JPanel {
         setDoubleBuffered(true);
         setBackground(Color.black);
         messages = new ArrayList<>();
-        addMouseWheelListener(new MouseWheelListener() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                currentScrollPosition -= e.getWheelRotation();
-                if (currentScrollPosition < 0)
-                    currentScrollPosition = 0;
-                if (currentScrollPosition > Math.max(messages.size() - getHeight() / 25, 0))
-                    currentScrollPosition = Math.max(messages.size() - getHeight() / 25, 0);
-                repaint();
-            }
+        addMouseWheelListener(e -> {
+            currentScrollPosition -= e.getWheelRotation();
+            if (currentScrollPosition < 0)
+                currentScrollPosition = 0;
+            if (currentScrollPosition > Math.max(messages.size() - getHeight() / 25, 0))
+                currentScrollPosition = Math.max(messages.size() - getHeight() / 25, 0);
+            repaint();
         });
     }
 

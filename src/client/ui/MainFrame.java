@@ -9,10 +9,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
+import static util.FontFactory.CHAT_FONT;
+
 public class MainFrame extends JFrame {
     private static final int FRAME_WIDTH = 1000;
     private static final int FRAME_HEIGHT = 800;
-    private static final Font CHAT_FONT = new Font("Calibri", 0, 20);
 
     private WorkspacePanel workspacePanel;
     private ChatPanel chatPanel = new ChatPanel();
@@ -38,23 +39,14 @@ public class MainFrame extends JFrame {
         setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        GridBagLayout gbl = new GridBagLayout();
-        setLayout(gbl);
-        GridBagConstraints c = new GridBagConstraints();
-        c.weighty = 0.7;
-        c.weightx = 1;
-        c.fill = GridBagConstraints.BOTH;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.gridx = 1;
-        c.gridy = 1;
         workspacePanel = new WorkspacePanel();
-        gbl.setConstraints(workspacePanel, c);
-        add(workspacePanel);
-        c.gridy = 2;
-        c.weighty = 0.3;
-        gbl.setConstraints(chatPanel, c);
-        add(chatPanel);
+        initTextField();
+        initLayout();
+        pack();
+        setVisible(true);
+    }
 
+    private void initTextField(){
         textField = new JTextField();
         textField.setBackground(Color.black);
         textField.setForeground(Color.white);
@@ -73,13 +65,27 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+    }
+    private void initLayout(){
+        GridBagLayout gbl = new GridBagLayout();
+        setLayout(gbl);
+        GridBagConstraints c = new GridBagConstraints();
+        c.weighty = 0.7;
+        c.weightx = 1;
+        c.fill = GridBagConstraints.BOTH;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridx = 1;
+        c.gridy = 1;
+        gbl.setConstraints(workspacePanel, c);
+        add(workspacePanel);
+        c.gridy = 2;
+        c.weighty = 0.3;
+        gbl.setConstraints(chatPanel, c);
+        add(chatPanel);
         c.gridy = 3;
         c.weighty = 0;
         c.fill = GridBagConstraints.HORIZONTAL;
         gbl.setConstraints(textField, c);
         add(textField);
-        pack();
-        setVisible(true);
     }
-
 }

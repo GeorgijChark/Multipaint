@@ -1,20 +1,32 @@
 package server.ui;
 
+import client.ui.ColorPanel;
+import net.Message;
 import server.net.ConnectionManager;
 import ui.ChatPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Date;
+
+import static util.FontFactory.CHAT_FONT;
 
 public class MainFrame extends JFrame {
-    private static int WIDTH = 300; //размеры
-    private static int HEIGHT = 300; // окна
+    private static final int FRAME_WIDTH = 1000; //размеры
+    private static final int FRAME_HEIGHT = 1000; // окна
     private WorkspacePanel workspacePanel = new WorkspacePanel();
     private ChatPanel chatPanel = new ChatPanel();
+    private JTextField textField;
+    private ConnectionManager connectionManager;
 
     public MainFrame() throws HeadlessException, IOException {
         initFrame();
+        connectionManager = new ConnectionManager(chatPanel);
+        Thread connectionThread = new Thread(connectionManager);
+        connectionThread.start();
     }
 
     public Graphics getFieldPanelGraphics() {
@@ -24,15 +36,49 @@ public class MainFrame extends JFrame {
     private void initFrame() {
         setTitle("Server");
         setBackground(Color.CYAN);
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        add(chatPanel);
-        Thread connectionThread = new Thread(new ConnectionManager(chatPanel));
-        connectionThread.start();
-
-
+        initTextField();
+        initLayout();
         pack();
         setVisible(true);
     }
 
+    private void initTextField(){
+        textField = new JTextField();
+        textField.setBackground(Color.black);
+        textField.setForeground(Color.white);
+        textField.setFont(CHAT_FONT);
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (textField.getText().length() != 0) {
+                        connectionManager.resend(new Message("Srever", textField.getText(), ""+new Date(System.currentTimeMillis())));
+                        textField.setText("");
+                    }
+                }
+            }
+        });
+    }
+
+    private void initLayout(){
+        GridBagLayout gbl = new GridBagLayout();
+        setLayout(gbl);
+        GridBagConstraints c = new GridBagConstraints();
+        c.weighty = 1;
+        c.weightx = 1;
+        c.fill = GridBagConstraints.BOTH;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridx = 1;
+        c.gridy = 1;
+        gbl.setConstraints(chatPanel, c);
+        add(chatPanel);
+        c.gridy = 2;
+        c.weighty = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        gbl.setConstraints(textField, c);
+        add(textField);
+    }
 }

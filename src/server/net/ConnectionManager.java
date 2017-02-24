@@ -45,8 +45,7 @@ public class ConnectionManager implements Runnable {
         }
     }
 
-    void resend(Message message) {
-        System.out.println("resending " + message);
+    public void resend(Message message) {
         for (ConnectionChanel connection : connections) {
             connection.sendMessage(message);
         }
