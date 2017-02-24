@@ -1,6 +1,5 @@
 package server.ui;
 
-import client.ui.ColorPanel;
 import net.Message;
 import server.net.ConnectionManager;
 import ui.ChatPanel;

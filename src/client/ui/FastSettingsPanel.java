@@ -12,6 +12,7 @@ public class FastSettingsPanel extends JPanel {
         setOpaque(true);
         setBackground(Color.lightGray);
         setFocusable(false);
+        setPreferredSize(SIZE);
     }
 
 

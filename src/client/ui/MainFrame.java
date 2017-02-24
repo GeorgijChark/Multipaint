@@ -7,14 +7,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import static util.FontFactory.CHAT_FONT;
 
 public class MainFrame extends JFrame {
-    private static final int FRAME_WIDTH = 1000;
-    private static final int FRAME_HEIGHT = 800;
-
+    private static final int FRAME_WIDTH = 1100;
+    private static final int FRAME_HEIGHT = 900;
     private WorkspacePanel workspacePanel;
     private ChatPanel chatPanel = new ChatPanel();
     private ConnectionManager connectionManager;
@@ -32,8 +33,14 @@ public class MainFrame extends JFrame {
         return workspacePanel.getFieldPanel().getMainImage().getGraphics();
     }
 
+    private void hideChat(){
+        chatPanel.setVisible(false);
+    }
+    private void showChat(){
+        chatPanel.setVisible(true);
+    }
 
-    void initFrame() {
+    private void initFrame() {
         setTitle("Client");
         setBackground(Color.CYAN);
         setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -45,7 +52,6 @@ public class MainFrame extends JFrame {
         pack();
         setVisible(true);
     }
-
     private void initTextField(){
         textField = new JTextField();
         textField.setBackground(Color.black);
@@ -56,6 +62,7 @@ public class MainFrame extends JFrame {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    showChat();
                     if (textField.getText().length() != 0 && connectionManager.isConnected()) {
                         connectionManager.sendMessage(textField.getText());
                         textField.setText("");
@@ -63,6 +70,16 @@ public class MainFrame extends JFrame {
                         connectionManager.setEnterPressed(true);
                     }
                 }
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    hideChat();
+                }
+            }
+        });
+        textField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                showChat();
             }
         });
     }
