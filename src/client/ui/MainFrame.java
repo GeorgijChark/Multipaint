@@ -10,8 +10,10 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class MainFrame extends JFrame {
-    private static int WIDTH = 1000; //размеры
-    private static int HEIGHT = 800; // окна
+    private static final int FRAME_WIDTH = 1000;
+    private static final int FRAME_HEIGHT = 800;
+    private static final Font CHAT_FONT = new Font("Calibri", 0, 20);
+
     private WorkspacePanel workspacePanel;
     private ChatPanel chatPanel = new ChatPanel();
     private ConnectionManager connectionManager;
@@ -33,8 +35,8 @@ public class MainFrame extends JFrame {
     void initFrame() {
         setTitle("Client");
         setBackground(Color.CYAN);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         GridBagLayout gbl = new GridBagLayout();
         setLayout(gbl);
@@ -56,7 +58,7 @@ public class MainFrame extends JFrame {
         textField = new JTextField();
         textField.setBackground(Color.black);
         textField.setForeground(Color.white);
-        textField.setFont(new Font("Calibri", 0, 20));
+        textField.setFont(CHAT_FONT);
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -76,8 +78,6 @@ public class MainFrame extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         gbl.setConstraints(textField, c);
         add(textField);
-
-
         pack();
         setVisible(true);
     }

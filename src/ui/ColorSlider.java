@@ -11,7 +11,7 @@ public class ColorSlider extends JSlider {
     private int type = 0;
 
     ColorSlider(int value, int min, int max, int type) {
-        super(Scrollbar.HORIZONTAL, min, max,value);
+        super(Scrollbar.HORIZONTAL, min, max, value);
         this.type = type;
         setOpaque(false);
         setPaintTrack(false);
@@ -41,9 +41,9 @@ public class ColorSlider extends JSlider {
                     b = 256 * i / getWidth();
                     break;
                 case 3:
-                    r = 256 * (getWidth()-i-1) / getWidth();
-                    g = 256 * (getWidth()-i-1) / getWidth();
-                    b = 256 * (getWidth()-i-1) / getWidth();
+                    r = 256 * (getWidth() - i - 1) / getWidth();
+                    g = 256 * (getWidth() - i - 1) / getWidth();
+                    b = 256 * (getWidth() - i - 1) / getWidth();
             }
 
             graphics.setColor(new Color(r, g, b));

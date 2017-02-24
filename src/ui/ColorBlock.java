@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -21,7 +19,7 @@ public class ColorBlock extends JPanel {
     public ColorBlock(int value, int min, int max, int type) {
         setBackground(Color.white);
         colorSlider = new ColorSlider(value, min, max, type);
-        valueLabel = new JLabel(type!=3 ? " 000": " 255");
+        valueLabel = new JLabel(type != 3 ? " 000" : " 255");
         valueLabel.setLabelFor(colorSlider);
         this.value = value;
         GridBagLayout layout = new GridBagLayout();

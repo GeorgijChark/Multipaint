@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ColorIndicator extends JPanel{
+public class ColorIndicator extends JPanel {
     private Color color;
 
     public ColorIndicator() {
@@ -22,7 +22,7 @@ public class ColorIndicator extends JPanel{
                 JColorChooser colorChooser = new JColorChooser(color);
                 colorChooser.setVisible(true);
                 JInternalFrame frame = new JInternalFrame("Choose color",
-                        false, true, false,true);
+                        false, true, false, true);
                 frame.add(colorChooser);
                 frame.pack();
                 frame.setVisible(true);

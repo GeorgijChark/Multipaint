@@ -2,7 +2,7 @@ package graphics;
 
 import java.awt.*;
 
-public class SoftLine extends Line{
+public class SoftLine extends Line {
     public SoftLine(int[] first, int[] last, int size, Color color) {
         super(first, last, size, color);
     }
@@ -19,7 +19,7 @@ public class SoftLine extends Line{
 
         if (steps == 0)
             shape.softDraw(g, 2 * size, first[0] - size, first[1] - size);
-        for (int i = 0; i < steps; i+=1+size/2) {
+        for (int i = 0; i < steps; i += 1 + size / 2) {
             shape.softDraw(g, 2 * size, (first[0] + i * dx / steps) - size, (first[1] + i * dy / steps) - size);
         }
         g.setColor(tempColor);

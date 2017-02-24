@@ -1,6 +1,5 @@
 package client.ui;
 
-import client.Main;
 import client.net.ConnectionManager;
 import graphics.Line;
 import graphics.SoftLine;
@@ -25,7 +24,7 @@ public class FieldPanel extends JPanel {
     private int[] lastPosition;
     private int[] nowPosition;
     private int pencilSize;
-    private int dx=0,dy=0;
+    private int dx = 0, dy = 0;
 
     FieldPanel(int fieldWidth, int fieldHeight) throws IOException {
         nowPosition = new int[]{-1, -1};
@@ -99,9 +98,9 @@ public class FieldPanel extends JPanel {
 
                     tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
                     tempGraphics = tempImage.getGraphics();
-                    ((Graphics2D)tempGraphics).setComposite(soft ? AlphaComposite.SrcOver : AlphaComposite.Src);
+                    ((Graphics2D) tempGraphics).setComposite(soft ? AlphaComposite.SrcOver : AlphaComposite.Src);
                     drawLine(e.getX(), e.getY());
-                    if(soft){
+                    if (soft) {
                         (new SoftLine(lastPosition, new int[]{e.getX(), e.getY()}, pencilSize, pencilColor)).draw(tempGraphics);
                     }
                     lastPosition = new int[]{e.getX(), e.getY()};
@@ -118,7 +117,7 @@ public class FieldPanel extends JPanel {
                 switch (e.getButton()) {
                     case 1:
                         leftPressed = false;
-                        mainGraphics.drawImage(tempImage,0,0,null);
+                        mainGraphics.drawImage(tempImage, 0, 0, null);
                         tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
                         break;
                     case 3:
@@ -184,10 +183,10 @@ public class FieldPanel extends JPanel {
 
     private void drawLine(int x, int y) {
         if (soft) {
-            ((Graphics2D)tempGraphics).setComposite(AlphaComposite.SrcOver);
-            dx+=(Math.abs(lastPosition[0]-x));
-            dy+=(Math.abs(lastPosition[1]-y));
-            if(dx+dy>Math.min(pencilSize/2, 15)) {
+            ((Graphics2D) tempGraphics).setComposite(AlphaComposite.SrcOver);
+            dx += (Math.abs(lastPosition[0] - x));
+            dy += (Math.abs(lastPosition[1] - y));
+            if (dx + dy > Math.min(pencilSize / 2, 15)) {
                 (new SoftLine(lastPosition, new int[]{x, y}, pencilSize, pencilColor)).draw(tempGraphics);
                 dx = 0;
                 dy = 0;
@@ -214,7 +213,7 @@ public class FieldPanel extends JPanel {
         super.paintComponent(g); //отрисовка как JPanel
         g.drawImage(backgroundImage, 0, 0, null);
         g.drawImage(mainImage, 0, 0, null);
-        g.drawImage(tempImage,0,0,null);
+        g.drawImage(tempImage, 0, 0, null);
         g.setColor(Color.black);
         if (nowPosition[0] + nowPosition[1] > 0) {
             g.drawOval(nowPosition[0] - pencilSize, nowPosition[1] - pencilSize, 2 * pencilSize, 2 * pencilSize);

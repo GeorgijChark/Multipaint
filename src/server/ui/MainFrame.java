@@ -26,22 +26,7 @@ public class MainFrame extends JFrame {
         setBackground(Color.CYAN);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        GridBagLayout gbl = new GridBagLayout();
-        setLayout(gbl);
-        GridBagConstraints c = new GridBagConstraints();
-        c.weighty = 1;
-        c.weightx = 1;
-        c.fill = GridBagConstraints.BOTH;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.gridx = 1;
-        c.gridy = 1;
-        gbl.setConstraints(workspacePanel, c);
-        add(workspacePanel);
-        c.gridy = 2;
-        c.weighty = 0.3;
-        gbl.setConstraints(chatPanel, c);
         add(chatPanel);
-
         Thread connectionThread = new Thread(new ConnectionManager(chatPanel));
         connectionThread.start();
 
