@@ -12,17 +12,19 @@ public class ChatPanel extends JPanel {
 
     private ArrayList<Message> messages;
     private int currentScrollPosition = 0;
+    private int STRING_HEIGHT = 25;
 
     public ChatPanel() {
         setDoubleBuffered(true);
-        setBackground(Color.black);
+        //setOpaque(false);
+        setBackground(new Color(0,0,0,220));
         messages = new ArrayList<>();
         addMouseWheelListener(e -> {
             currentScrollPosition -= e.getWheelRotation();
             if (currentScrollPosition < 0)
                 currentScrollPosition = 0;
-            if (currentScrollPosition > Math.max(messages.size() - getHeight() / 25, 0))
-                currentScrollPosition = Math.max(messages.size() - getHeight() / 25, 0);
+            if (currentScrollPosition > Math.max(messages.size() - getHeight() / STRING_HEIGHT, 0))
+                currentScrollPosition = Math.max(messages.size() - getHeight() / STRING_HEIGHT, 0);
             repaint();
         });
     }
@@ -33,11 +35,14 @@ public class ChatPanel extends JPanel {
     }
 
     public void paintComponent(Graphics g1) {
-        super.paintComponent(g1);
         Graphics2D g = (Graphics2D) g1;
+//        g.setComposite(AlphaComposite.Clear);
+//        g.fillRect(0,0,getWidth(),getHeight());
+//        g.setComposite(AlphaComposite.SrcOver);
+        super.paintComponent(g1);
         g.setColor(Color.GREEN);
         for (int i = 0; i < messages.size(); i++) {
-            messages.get(i).draw(g, 20 + 25 * i + getHeight() - messages.size() * 25 + 25 * currentScrollPosition, Color.GREEN);
+            messages.get(i).draw(g, 20 + getHeight() + STRING_HEIGHT * i  - messages.size() * STRING_HEIGHT + STRING_HEIGHT * currentScrollPosition, Color.GREEN);
         }
     }
 }

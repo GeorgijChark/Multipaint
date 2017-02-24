@@ -3,6 +3,7 @@ package server.ui;
 import net.Message;
 import server.net.ConnectionManager;
 import ui.ChatPanel;
+import util.StringFormats.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import static util.FontFactory.CHAT_FONT;
+import static util.StringFormats.getTime;
 
 public class MainFrame extends JFrame {
     private static final int FRAME_WIDTH = 1000; //размеры
@@ -54,7 +56,7 @@ public class MainFrame extends JFrame {
                 super.keyReleased(e);
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (textField.getText().length() != 0) {
-                        connectionManager.resend(new Message("Srever", textField.getText(), ""+new Date(System.currentTimeMillis())));
+                        connectionManager.resend(new Message("Server", textField.getText(), ""+getTime(System.currentTimeMillis())));
                         textField.setText("");
                     }
                 }

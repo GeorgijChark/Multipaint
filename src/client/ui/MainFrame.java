@@ -16,6 +16,7 @@ import static util.FontFactory.CHAT_FONT;
 public class MainFrame extends JFrame {
     private static final int FRAME_WIDTH = 1100;
     private static final int FRAME_HEIGHT = 900;
+    private static final int CHAT_HEIGHT = 200;
     private WorkspacePanel workspacePanel;
     private ChatPanel chatPanel = new ChatPanel();
     private ConnectionManager connectionManager;

@@ -5,6 +5,7 @@ import graphics.Command;
 import net.Message;
 import ui.ChatPanel;
 import util.Input;
+import util.StringFormats;
 import util.StringStream;
 
 import java.io.IOException;
@@ -59,45 +60,26 @@ public class ConnectionManager implements Runnable {
 
     @Override
     public void run() {
-        int port = -1;
-        while (port == -1) {
-            try {
-                while (socketToServer == null) {
-                    try {
-                        socketToServer = new Socket(HOST, PORT);
-                    } catch (ConnectException e) {
-                        chatPanel.addMessage(new Message("System", "Unable connect to the server, press ENTER to retry", "" + new Date(System.currentTimeMillis())));
-                        enterPressed = false;
-                        while (!enterPressed) {
-                            try {
-                                sleep(100);
-                            } catch (InterruptedException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                        enterPressed = false;
-                    }
-                }
-                in = null;
-                while (in == null) {
-                    System.out.println("*");
-                    in = new Input(socketToServer.getInputStream());
-                    System.out.println("*3");
-                }
-                port = PORT + in.nextInt();
-                System.out.println(port);
-            } catch (IOException e) {
-                System.out.println(port);
-                e.printStackTrace();
-            }
-        }
-
-
         try {
-            socketToServer = new Socket(HOST, port);
+            while (socketToServer == null) {
+                try {
+                    socketToServer = new Socket(HOST, PORT);
+                } catch (ConnectException e) {
+                    chatPanel.addMessage(new Message("System", "Unable connect to the server, press ENTER to retry", "" + StringFormats.getTime(System.currentTimeMillis())));
+                    enterPressed = false;
+                    while (!enterPressed) {
+                        try {
+                            sleep(100);
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                    enterPressed = false;
+                }
+            }
             in = new Input(socketToServer.getInputStream());
             chatPanel.addMessage(new Message("System", "Connected on port:" + socketToServer.getPort(),
-                    "" + new Date(System.currentTimeMillis())));
+                    "" + StringFormats.getTime(System.currentTimeMillis())));
             connected = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,19 +93,18 @@ public class ConnectionManager implements Runnable {
         netPrintWriter.println(username);
         sendMessage("Привет, я " + username);
         while (takeMessage()) {
-
         }
 
     }
 
     public void sendMessage(String text) {
         netPrintWriter.println(text);
-        netPrintWriter.println(new Date(System.currentTimeMillis()));
+        netPrintWriter.println(StringFormats.getTime(System.currentTimeMillis()));
     }
 
     public void sendCommand(String text) {
         netPrintWriter.println("$" + text);
-        netPrintWriter.println(new Date(System.currentTimeMillis()));
+        netPrintWriter.println(StringFormats.getTime(System.currentTimeMillis()));
     }
 
     private void takeCommand(String comText) {
@@ -143,14 +124,14 @@ public class ConnectionManager implements Runnable {
     public boolean takeMessage() {
         String sender, text, time;
         if (in == null) {
-            chatPanel.addMessage(new Message("Server", "You have been disconnected", "" + new Date(System.currentTimeMillis())));
+            chatPanel.addMessage(new Message("Server", "You have been disconnected", "" + StringFormats.getTime(System.currentTimeMillis())));
             return false;
         } else {
             sender = in.nextLine();
             text = in.nextLine();
             time = in.nextLine();
             if (time == null) {
-                chatPanel.addMessage(new Message("Server", "You have been disconnected", "" + new Date(System.currentTimeMillis())));
+                chatPanel.addMessage(new Message("Server", "You have been disconnected", "" + StringFormats.getTime(System.currentTimeMillis())));
                 return false;
             }
 
@@ -160,7 +141,7 @@ public class ConnectionManager implements Runnable {
                 takeCommand(text);
             } else {
                 if (time == null) {
-                    chatPanel.addMessage(new Message("Server", "You have been disconnected", "" + new Date(System.currentTimeMillis())));
+                    chatPanel.addMessage(new Message("Server", "You have been disconnected", "" + StringFormats.getTime(System.currentTimeMillis())));
                     return false;
                 }
                 if (Objects.equals(sender, username))

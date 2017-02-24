@@ -14,7 +14,6 @@ public class FieldPanel extends JPanel {
     private Graphics g1;
 
     FieldPanel(int fieldWidth, int fieldHeight) throws IOException {
-
         setSize(fieldWidth, fieldHeight);
         setPreferredSize(new Dimension(fieldWidth, fieldHeight));
         setMaximumSize(new Dimension(fieldWidth, fieldHeight));
@@ -23,8 +22,6 @@ public class FieldPanel extends JPanel {
         setOpaque(true);
         setVisible(true);
         setBackground(Color.white);
-
-
         imGraphics = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         g1 = imGraphics.createGraphics();
         g1.setColor(Color.white);
@@ -44,13 +41,9 @@ public class FieldPanel extends JPanel {
     }
 
     public void paintComponent(Graphics g) { //отрисовка поля
-
         super.paintComponent(g); //отрисовка как JPanel
-
         g.drawImage(imGraphics, 0, 0, null);
         g.setColor(Color.black);
-
-
     }
 
     void clear() {  //возврат поля в исходное состояние
@@ -58,10 +51,7 @@ public class FieldPanel extends JPanel {
     }
 
     public String toString() {
-
         return "";
     }
-
-
 }
 

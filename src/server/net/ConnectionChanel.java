@@ -5,11 +5,11 @@ import net.Message;
 import server.ui.MainFrame;
 import ui.ChatPanel;
 import util.Input;
+import util.StringFormats;
 import util.StringStream;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,19 +24,12 @@ public class ConnectionChanel implements Runnable {
     private ChatPanel chatPanel;
     private ConnectionManager connectionManager;
 
-    public ConnectionChanel(ChatPanel chatPanel) {
-        this.chatPanel = chatPanel;
-    }
 
-    public ConnectionChanel(int port, ChatPanel chatPanel) {
-        this.port = port;
-        this.chatPanel = chatPanel;
-    }
-
-    ConnectionChanel(int port, ChatPanel chatPanel, ConnectionManager connectionManager) {
+    ConnectionChanel(Socket socketToClient, ChatPanel chatPanel, ConnectionManager connectionManager) {
         this.port = port;
         this.chatPanel = chatPanel;
         this.connectionManager = connectionManager;
+        this.socketToClient = socketToClient;
     }
 
     int getPort() {
@@ -45,24 +38,15 @@ public class ConnectionChanel implements Runnable {
 
     @Override
     public void run() {
-        ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(port);
-
-            while (true) {
-                socketToClient = serverSocket.accept();
-                in = new Input(socketToClient.getInputStream());
-                netPrintWriter = new PrintWriter(socketToClient.getOutputStream(), true);
-                username = in.nextLine();
-                chatPanel.addMessage(new Message(username,
-                        "Connected from: " + socketToClient.getInetAddress() + ":" + socketToClient.getPort(),
-                        "" + new Date(System.currentTimeMillis())));
-
-                while (takeMessage()) ;
-                connectionManager.releasePort(port);
-                socketToClient.close();
-
-            }
+            in = new Input(socketToClient.getInputStream());
+            netPrintWriter = new PrintWriter(socketToClient.getOutputStream(), true);
+            username = in.nextLine();
+            chatPanel.addMessage(new Message(username,
+                    "Connected from: " + socketToClient.getInetAddress() + ":" + socketToClient.getPort(),
+                    "" + StringFormats.getTime(System.currentTimeMillis())));
+            while (takeMessage()) ;
+            socketToClient.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,7 +63,7 @@ public class ConnectionChanel implements Runnable {
     public void sendMessage(String text, String username) {
         netPrintWriter.println(username);
         netPrintWriter.println(text);
-        netPrintWriter.println(new Date(System.currentTimeMillis()));
+        netPrintWriter.println(StringFormats.getTime(System.currentTimeMillis()));
 
     }
 
@@ -87,14 +71,14 @@ public class ConnectionChanel implements Runnable {
         String sender, text, time;
 
         if (in == null) {
-            chatPanel.addMessage(new Message(username, "Disconnected", "" + new Date(System.currentTimeMillis())));
+            chatPanel.addMessage(new Message(username, "Disconnected", "" + StringFormats.getTime(System.currentTimeMillis())));
             return false;
         } else {
             sender = username;
             text = in.nextLine();
             time = in.nextLine();
             if (time == null) {
-                chatPanel.addMessage(new Message(username, "Disconnected", "" + new Date(System.currentTimeMillis())));
+                chatPanel.addMessage(new Message(username, "Disconnected", "" + StringFormats.getTime(System.currentTimeMillis())));
                 return false;
             }
             char[] firstSymbol = new char[1];

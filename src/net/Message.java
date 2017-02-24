@@ -36,6 +36,7 @@ public class Message {
 
     public void draw(Graphics2D g, int y, Color color) {
 
+        FontRenderContext frc = g.getFontRenderContext();
 
         g.setColor(new Color(10, 150, 10));
         if (sender.equals("Server"))
@@ -46,10 +47,9 @@ public class Message {
             g.setColor(new Color(150, 170, 170));
         if (sender.equals("Paint"))
             g.setColor(new Color(223, 200, 0));
-        FontRenderContext frc = g.getFontRenderContext();
+
         TextLayout time = new TextLayout(this.time + " ", ITALIC_MESSAGE, frc);
         time.draw(g, 5, y);
-
         g.setColor(new Color(10, 250, 10));
         if (sender.equals("Server"))
             g.setColor(new Color(250, 10, 10));
