@@ -30,7 +30,7 @@ public class FieldPanel extends JPanel {
         nowPosition = new int[]{-1, -1};
         lastPosition = new int[]{-1, -1};
         pencilSize = 20;
-        soft = true;
+        soft = false;
         setSize(fieldWidth, fieldHeight);
         setPreferredSize(new Dimension(fieldWidth, fieldHeight));
         setMaximumSize(new Dimension(fieldWidth, fieldHeight));

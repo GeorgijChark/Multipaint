@@ -112,7 +112,7 @@ public class ConnectionManager implements Runnable {
         StringStream stringStream = new StringStream(comText);
         String type = stringStream.next();
         Command com = new Command("line");
-        com.addArgument(((MainFrame) chatPanel.getParent().getParent().getParent().getParent()).getFieldPanelGraphics());
+        com.addArgument(((MainFrame) chatPanel.getParent().getParent().getParent().getParent().getParent()).getFieldPanelGraphics());
         for (int i = 1; i < com.getNumberOfArguments(); i++) {
             com.addArgument(stringStream.nextInt());
         }

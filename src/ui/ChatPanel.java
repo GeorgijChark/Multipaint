@@ -16,7 +16,7 @@ public class ChatPanel extends JPanel {
 
     public ChatPanel() {
         setDoubleBuffered(true);
-        //setOpaque(false);
+        setOpaque(false);
         setBackground(new Color(0,0,0,220));
         messages = new ArrayList<>();
         addMouseWheelListener(e -> {
@@ -36,9 +36,9 @@ public class ChatPanel extends JPanel {
 
     public void paintComponent(Graphics g1) {
         Graphics2D g = (Graphics2D) g1;
-//        g.setComposite(AlphaComposite.Clear);
-//        g.fillRect(0,0,getWidth(),getHeight());
-//        g.setComposite(AlphaComposite.SrcOver);
+        g.setColor(new Color(0,0,0,218));
+        g.fillRect(0,0,getWidth(),getHeight());
+
         super.paintComponent(g1);
         g.setColor(Color.GREEN);
         for (int i = 0; i < messages.size(); i++) {
