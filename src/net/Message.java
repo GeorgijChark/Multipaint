@@ -4,12 +4,11 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 
+import static util.FontFactory.*;
+
 public class Message {
     private String sender, text, time;
-    private static Font
-            BASIC_FONT = new Font("Times New Roman", 0, 20),
-            BASIC_BOLD_FONT = new Font("Times New Roman", 1, 20),
-            BASIC_ITALIC_FONT = new Font("Times New Roman", 2, 20);
+
 
 
     public Message(String sender, String text, String time) {
@@ -48,7 +47,7 @@ public class Message {
         if (sender.equals("Paint"))
             g.setColor(new Color(223, 200, 0));
         FontRenderContext frc = g.getFontRenderContext();
-        TextLayout time = new TextLayout(this.time + " ", BASIC_ITALIC_FONT, frc);
+        TextLayout time = new TextLayout(this.time + " ", ITALIC_MESSAGE, frc);
         time.draw(g, 5, y);
 
         g.setColor(new Color(10, 250, 10));
@@ -61,9 +60,9 @@ public class Message {
         if (sender.equals("Paint"))
             g.setColor(new Color(255, 232, 0));
 
-        TextLayout sender = new TextLayout(this.sender + ": ", BASIC_BOLD_FONT, frc);
+        TextLayout sender = new TextLayout(this.sender + ": ", BOLD_MESSAGE, frc);
         sender.draw(g, (float) (10 + time.getBounds().getWidth()), y);
-        TextLayout text = new TextLayout(this.text, BASIC_FONT, frc);
+        TextLayout text = new TextLayout(this.text, MESSAGE, frc);
         text.draw(g, (float) (20 + time.getBounds().getWidth() + sender.getBounds().getWidth()), y);
 
     }
