@@ -3,10 +3,13 @@ package util;
 import java.awt.*;
 
 public class FontFactory {
+    private static final String messageFontName = "Century Gothic";
+    public static final int textSize = 25;
     public static Font
-            MESSAGE = new Font("Times New Roman", 0, 20),
-            BOLD_MESSAGE = new Font("Times New Roman", 1, 20),
-            ITALIC_MESSAGE = new Font("Times New Roman", 2, 20),
-            CHAT_FONT = new Font("Calibri", 0, 20)
+            MESSAGE = new Font(messageFontName, 0, textSize),
+            BOLD_MESSAGE = new Font(messageFontName, 1, textSize),
+            ITALIC_MESSAGE = new Font(messageFontName, 2, textSize),
+            BOLD_ITALIC_MESSAGE = new Font(messageFontName, 3, textSize),
+            CHAT_FONT = new Font(messageFontName, 0, textSize)
     ;
 }

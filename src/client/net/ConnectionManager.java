@@ -38,7 +38,7 @@ public class ConnectionManager implements Runnable {
     }
 
     public ConnectionManager(ChatPanel chatPanel) {
-        username = "Безымянный №" + (new Random().nextInt(1000));
+        username = "Unnamed " + (new Random().nextInt(1000));
         this.chatPanel = chatPanel;
     }
 
@@ -91,7 +91,7 @@ public class ConnectionManager implements Runnable {
             e.printStackTrace();
         }
         netPrintWriter.println(username);
-        sendMessage("Привет, я " + username);
+        sendMessage("Hi, I'm " + username);
         while (takeMessage()) {
         }
 

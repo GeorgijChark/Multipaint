@@ -37,12 +37,12 @@ class WorkspacePanel extends JPanel {
         c.anchor = GridBagConstraints.CENTER;
         gbl.setConstraints(fieldPanel, c);
         add(fieldPanel);
-        c.weightx = 0.3;
+        c.weightx = 0;
         c.weighty = 0.3;
         c.fill = GridBagConstraints.NONE;
         c.gridx = 2;
         c.anchor = GridBagConstraints.NORTHEAST;
-        JPanel settingsPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel settingsPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         settingsPanel.add(sizePanel);
         settingsPanel.add(colorPanel);
         gbl.setConstraints(settingsPanel, c);

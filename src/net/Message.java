@@ -60,8 +60,8 @@ public class Message {
         if (sender.equals("Paint"))
             g.setColor(new Color(255, 232, 0));
 
-        TextLayout sender = new TextLayout(this.sender + ": ", BOLD_MESSAGE, frc);
-        sender.draw(g, (float) (10 + time.getBounds().getWidth()), y);
+        TextLayout sender = new TextLayout(this.sender + ": ", BOLD_ITALIC_MESSAGE, frc);
+        sender.draw(g, (float) (15 + time.getBounds().getWidth()), y);
         TextLayout text = new TextLayout(this.text, MESSAGE, frc);
         text.draw(g, (float) (20 + time.getBounds().getWidth() + sender.getBounds().getWidth()), y);
 

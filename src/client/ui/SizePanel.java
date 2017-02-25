@@ -7,10 +7,10 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 
 public class SizePanel extends FastSettingsPanel implements AdjustmentListener {
-    public int HGAP = 40;
-    Scrollbar sizeSlider;
-    FieldPanel fp;
-    JLabel label;
+    private final static int HGAP = 40;
+    private Scrollbar sizeSlider;
+    private FieldPanel fp;
+    private JLabel label;
 
     public SizePanel() {
         super();
@@ -21,45 +21,31 @@ public class SizePanel extends FastSettingsPanel implements AdjustmentListener {
         setBounds(0, 0, 200, 100);
     }
 
-    public SizePanel(int size) {
+    SizePanel(int size) {
         super();
         setBackground(Color.white);
+        setSize(200, 100);
+        setBounds(0, 0, 200, 100);
+        setLayout(new GridLayout(3, 1, HGAP, 0));
         sizeSlider = new Scrollbar(Scrollbar.HORIZONTAL, size, 1, 0, 1000);
         sizeSlider.setBounds(0, 0, 250, 20);
         sizeSlider.addAdjustmentListener(this);
-
         sizeSlider.setFocusable(false);
         label = new JLabel(sizeSlider.getValue() + "");
-
-
-        setLayout(new GridLayout(3, 1, HGAP, 0));
+        label.setAlignmentX(CENTER_ALIGNMENT);
         add(sizeSlider);
         add(label);
 
-        label.setAlignmentX(CENTER_ALIGNMENT);
-
-        setSize(200, 100);
-        setBounds(0, 0, 200, 100);
     }
 
-    public void setFp(FieldPanel fp) {
+    void setFp(FieldPanel fp) {
         this.fp = fp;
-    }
-
-    public int getValue() {
-        return sizeSlider.getValue();
-    }
-
-    public void setValue(int value) {
-        sizeSlider.setValue(value);
-
     }
 
     @Override
     public void paintComponent(Graphics g) {
         sizeSlider.setValue(fp.getPencilSize());
         label.setText(sizeSlider.getValue() + "");
-
         super.paintComponent(g);
         g.setColor(fp.getPencilColor());
         g.fillOval(getWidth() / 2 - sizeSlider.getValue(), (int) (getHeight() * 1.33) / 2 - sizeSlider.getValue(), 2 * sizeSlider.getValue(), 2 * sizeSlider.getValue());
@@ -67,7 +53,6 @@ public class SizePanel extends FastSettingsPanel implements AdjustmentListener {
 
     @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
-
         fp.setPencilSize(sizeSlider.getValue());
         label.setText(sizeSlider.getValue() + "");
         repaint();
