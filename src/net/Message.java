@@ -8,9 +8,6 @@ import static util.FontFactory.*;
 
 public class Message {
     private String sender, text, time;
-
-
-
     public Message(String sender, String text, String time) {
         this.sender = sender;
         this.text = text;
@@ -38,27 +35,11 @@ public class Message {
 
         FontRenderContext frc = g.getFontRenderContext();
 
-        g.setColor(new Color(10, 150, 10));
-        if (sender.equals("Server"))
-            g.setColor(new Color(150, 10, 10));
-        if (sender.equals("System"))
-            g.setColor(new Color(10, 100, 200));
-        if (sender.equals("Me"))
-            g.setColor(new Color(150, 170, 170));
-        if (sender.equals("Paint"))
-            g.setColor(new Color(223, 200, 0));
-
+        g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 100));
         TextLayout time = new TextLayout(this.time + " ", ITALIC_MESSAGE, frc);
         time.draw(g, 5, y);
-        g.setColor(new Color(10, 250, 10));
-        if (sender.equals("Server"))
-            g.setColor(new Color(250, 10, 10));
-        if (sender.equals("System"))
-            g.setColor(new Color(0, 0, 255));
-        if (sender.equals("Me"))
-            g.setColor(new Color(200, 250, 250));
-        if (sender.equals("Paint"))
-            g.setColor(new Color(255, 232, 0));
+        g.setColor(color);
+
 
         TextLayout sender = new TextLayout(this.sender + ": ", BOLD_ITALIC_MESSAGE, frc);
         sender.draw(g, (float) (15 + time.getBounds().getWidth()), y);

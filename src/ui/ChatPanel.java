@@ -52,7 +52,17 @@ public class ChatPanel extends JPanel {
         super.paintComponent(g1);
         g.setColor(Color.GREEN);
         for (int i = 0; i < messages.size(); i++) {
-            messages.get(i).draw(g, 20 + getHeight() + STRING_HEIGHT * i  - messages.size() * STRING_HEIGHT + STRING_HEIGHT * currentScrollPosition, Color.GREEN);
+            String sender = messages.get(i).getSender();
+            Color color = new Color(10, 250, 10);
+            if (sender.equals("Server"))
+                color = new Color(250, 10, 10);
+            if (sender.equals("System"))
+                color = new Color(0, 0, 255);
+            if (sender.equals("Me"))
+                color = new Color(200, 250, 250);
+            if (sender.equals("Paint"))
+                color = new Color(255, 232, 0);
+            messages.get(i).draw(g, 20 + getHeight() + STRING_HEIGHT * i  - messages.size() * STRING_HEIGHT + STRING_HEIGHT * currentScrollPosition, color);
         }
 
     }
