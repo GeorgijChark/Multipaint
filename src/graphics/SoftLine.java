@@ -7,9 +7,6 @@ public class SoftLine extends Line {
         super(first, last, size, color);
     }
 
-    public SoftLine(int[] first, int[] last, int size) {
-        super(first, last, size);
-    }
 
     public void draw(Graphics g) {
         int dy = (last[1] - first[1]), dx = (last[0] - first[0]);

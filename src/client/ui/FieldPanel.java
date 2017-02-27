@@ -41,11 +41,9 @@ public class FieldPanel extends JPanel {
         pencilColor = Color.black;
         setBackground(Color.white);
 
-
         mainImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         backgroundImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-
 
         mainGraphics = mainImage.createGraphics();
         backgroundGraphics = backgroundImage.createGraphics();
@@ -59,7 +57,6 @@ public class FieldPanel extends JPanel {
                 }
             }
         }
-
 
         addMouseWheelListener(new MouseAdapter() {
             @Override
@@ -78,8 +75,6 @@ public class FieldPanel extends JPanel {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-
             }
 
             @Override
@@ -95,7 +90,6 @@ public class FieldPanel extends JPanel {
                         break;
                 }
                 if (leftPressed) {
-
                     tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
                     tempGraphics = tempImage.getGraphics();
                     ((Graphics2D) tempGraphics).setComposite(soft ? AlphaComposite.SrcOver : AlphaComposite.Src);
@@ -106,7 +100,13 @@ public class FieldPanel extends JPanel {
                     lastPosition = new int[]{e.getX(), e.getY()};
                 }
                 if (rightPressed) {
-                    clearLine(e.getX(), e.getY());
+                    tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+                    tempGraphics = tempImage.getGraphics();
+                    ((Graphics2D) tempGraphics).setComposite(soft ? AlphaComposite.SrcOver : AlphaComposite.Src);
+                    drawLine(e.getX(), e.getY());
+                    if (soft) {
+                        (new SoftLine(lastPosition, new int[]{e.getX(), e.getY()}, pencilSize, pencilColor)).draw(tempGraphics);
+                    }
                     lastPosition = new int[]{e.getX(), e.getY()};
                 }
                 repaint();
@@ -122,8 +122,13 @@ public class FieldPanel extends JPanel {
                         break;
                     case 3:
                         rightPressed = false;
+                        ((Graphics2D) mainGraphics).setComposite(AlphaComposite.DstOut);
+                        mainGraphics.drawImage(tempImage, 0, 0, null);
+                        ((Graphics2D) mainGraphics).setComposite(AlphaComposite.SrcOver);
+                        tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
                         break;
                 }
+                repaint();
             }
 
             @Override
@@ -147,7 +152,7 @@ public class FieldPanel extends JPanel {
                     lastPosition = new int[]{e.getX(), e.getY()};
                 }
                 if (rightPressed) {
-                    clearLine(e.getX(), e.getY());
+                    drawLine(e.getX(), e.getY());
                     lastPosition = new int[]{e.getX(), e.getY()};
                 }
                 nowPosition = new int[]{e.getX(), e.getY()};
@@ -201,21 +206,24 @@ public class FieldPanel extends JPanel {
                     + pencilColor.getRed() + " " + pencilColor.getGreen() + " " + pencilColor.getBlue());
     }
 
-    private void clearLine(int x, int y) {
-        (new Line(lastPosition, new int[]{x, y}, pencilSize, Color.white)).clear(mainGraphics);
-        if (connectionManager.isConnected())
-            connectionManager.sendCommand("line" + " " + lastPosition[0] + " " + lastPosition[1] + " " + x + " " + y +
-                    " " + pencilSize +
-                    " 255 255 255");
-    }
-
-    public void paintComponent(Graphics g) { //отрисовка поля
-        super.paintComponent(g); //отрисовка как JPanel
-        g.drawImage(backgroundImage, 0, 0, null);
-        g.drawImage(mainImage, 0, 0, null);
-        g.drawImage(tempImage, 0, 0, null);
-        g.setColor(Color.black);
+    public void paintComponent(Graphics g1) {
+        Graphics2D g = (Graphics2D) g1;
+        super.paintComponent(g);
+        if(!rightPressed) {
+            g.drawImage(backgroundImage, 0, 0, null);
+            g.drawImage(mainImage, 0, 0, null);
+            g.drawImage(tempImage, 0, 0, null);
+        } else {
+            BufferedImage superTempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D superTempGraphics = (Graphics2D) superTempImage.getGraphics();
+            g.drawImage(backgroundImage, 0, 0, null);
+            superTempGraphics.drawImage(mainImage, 0, 0, null);
+            superTempGraphics.setComposite(AlphaComposite.DstOut);
+            superTempGraphics.drawImage(tempImage, 0, 0, null);
+            g.drawImage(superTempImage,0,0,null);
+        }
         if (nowPosition[0] + nowPosition[1] > 0) {
+            g.setColor(Color.black);
             g.drawOval(nowPosition[0] - pencilSize, nowPosition[1] - pencilSize, 2 * pencilSize, 2 * pencilSize);
             g.setColor(Color.white);
             g.drawOval(nowPosition[0] - pencilSize - 1, nowPosition[1] - pencilSize - 1, 2 * pencilSize + 2, 2 * pencilSize + 2);

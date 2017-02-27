@@ -42,12 +42,11 @@ public class ChatPanel extends JPanel {
 
     public void paintComponent(Graphics g1) {
         Graphics2D g = (Graphics2D) g1;
+        FontRenderContext frc = g.getFontRenderContext();
+        TextLayout time = new TextLayout(StringFormats.getTime(System.currentTimeMillis()), ITALIC_MESSAGE, frc);
         g.setColor(new Color(0,0,0,218));
         g.fillRect(0,0,getWidth(),getHeight());
         g.setColor(new Color(0,0,0,100));
-
-        FontRenderContext frc = g.getFontRenderContext();
-        TextLayout time = new TextLayout(StringFormats.getTime(System.currentTimeMillis()), ITALIC_MESSAGE, frc);
         g.fillRect(0,0, (int) time.getBounds().getWidth()+10,getWidth());
         super.paintComponent(g1);
         g.setColor(Color.GREEN);
@@ -64,6 +63,5 @@ public class ChatPanel extends JPanel {
                 color = new Color(255, 232, 0);
             messages.get(i).draw(g, 20 + getHeight() + STRING_HEIGHT * i  - messages.size() * STRING_HEIGHT + STRING_HEIGHT * currentScrollPosition, color);
         }
-
     }
 }

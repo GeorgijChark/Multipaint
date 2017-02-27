@@ -81,33 +81,17 @@ public class MainFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                showChat();
+                if(!chatPanel.isVisible()) {
+                    showChat();
+                } else {
+                    if(textField.getText().length() == 0){
+                        hideChat();
+                    }
+                }
             }
         });
     }
 
-    private void initOldLayout(){
-        GridBagLayout gbl = new GridBagLayout();
-        setLayout(gbl);
-        GridBagConstraints c = new GridBagConstraints();
-        c.weighty = 0.7;
-        c.weightx = 1;
-        c.fill = GridBagConstraints.BOTH;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.gridx = 1;
-        c.gridy = 1;
-        gbl.setConstraints(workspacePanel, c);
-        add(workspacePanel);
-        c.gridy = 1;
-        c.weighty = 0.3;
-        gbl.setConstraints(chatPanel, c);
-        add(chatPanel);
-        c.gridy = 3;
-        c.weighty = 0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        gbl.setConstraints(textField, c);
-        add(textField);
-    }
 
     private void initSpringLayout(){
         JLayeredPane layeredPane = new JLayeredPane();
@@ -148,44 +132,5 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private void initLayout(){
-        JLayeredPane layeredPane = new JLayeredPane();
-        JPanel mainPanel = new JPanel();
-        GridBagLayout gbl = new GridBagLayout();
-        mainPanel.setLayout(gbl);
-        GridBagConstraints c = new GridBagConstraints();
-        c.weighty = 0.7;
-        c.weightx = 1;
-        c.fill = GridBagConstraints.BOTH;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.gridx = 1;
-        c.gridy = 1;
-        gbl.setConstraints(workspacePanel, c);
-        mainPanel.add(workspacePanel);
-        c.gridy = 2;
-        c.weighty = 0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        gbl.setConstraints(textField, c);
-        mainPanel.add(textField);
-        SpringLayout springLayout = new SpringLayout();
-        layeredPane.setLayout(springLayout);
-        layeredPane.add(mainPanel, JLayeredPane.DEFAULT_LAYER);
-        chatPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE,CHAT_HEIGHT));
-        chatPanel.setMinimumSize(new Dimension(500,CHAT_HEIGHT));
-        springLayout.putConstraint(SpringLayout.SOUTH, chatPanel,0, SpringLayout.SOUTH, textField);
-        layeredPane.add(chatPanel, JLayeredPane.POPUP_LAYER);
-        setLayout(new BorderLayout());
-        add(layeredPane, BorderLayout.CENTER);
-        layeredPane.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                System.err.println("click!");
-                System.err.println(""+layeredPane.getComponentCountInLayer(JLayeredPane.POPUP_LAYER));
-                System.err.println(""+layeredPane.getComponentCount());
 
-            }
-        });
-
-    }
 }
