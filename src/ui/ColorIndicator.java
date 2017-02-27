@@ -26,7 +26,7 @@ public class ColorIndicator extends JPanel {
                 frame.add(colorChooser);
                 frame.pack();
                 frame.setVisible(true);
-                getParent().getParent().getParent().getParent().getParent().getParent().add(frame);
+                getParent().getParent().getParent().getParent().getParent().getParent().getParent().add(frame);
                 frame.addInternalFrameListener(new InternalFrameAdapter() {
                     @Override
                     public void internalFrameClosing(InternalFrameEvent e) {
