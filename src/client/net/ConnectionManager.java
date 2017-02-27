@@ -96,8 +96,7 @@ public class ConnectionManager implements Runnable {
         }
         netPrintWriter.println(username);
         sendMessage("Hi, I'm " + username);
-        while (takeMessage()) {
-        }
+        while (takeMessage());
 
     }
 
@@ -116,7 +115,7 @@ public class ConnectionManager implements Runnable {
         StringStream stringStream = new StringStream(comText);
         String type = stringStream.next();
         Command com = new Command("line");
-        com.addArgument(fieldPanel.getGraphics());
+        com.addArgument(fieldPanel.getMainGraphics());
         for (int i = 1; i < com.getNumberOfArguments(); i++) {
             com.addArgument(stringStream.nextInt());
         }
@@ -125,7 +124,7 @@ public class ConnectionManager implements Runnable {
 
     }
 
-    public boolean takeMessage() {
+    private boolean takeMessage() {
         String sender, text, time;
         if (in == null) {
             chatPanel.addMessage(new Message("Server", "You have been disconnected", "" + StringFormats.getTime(System.currentTimeMillis())));
@@ -144,10 +143,6 @@ public class ConnectionManager implements Runnable {
             if (firstSymbol[0] == '$') {
                 takeCommand(text);
             } else {
-                if (time == null) {
-                    chatPanel.addMessage(new Message("Server", "You have been disconnected", "" + StringFormats.getTime(System.currentTimeMillis())));
-                    return false;
-                }
                 if (Objects.equals(sender, username))
                     sender = "Me";
                 chatPanel.addMessage(new Message(sender, text, time));

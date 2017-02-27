@@ -146,7 +146,6 @@ public class FieldPanel extends JPanel {
                 nowPosition = new int[]{e.getX(), e.getY()};
                 repaint();
             }
-
             @Override
             public void mouseMoved(MouseEvent e) {
                 nowPosition = new int[]{e.getX(), e.getY()};
@@ -202,7 +201,7 @@ public class FieldPanel extends JPanel {
 
     }
 
-    public Graphics getGraphics() {
+    public Graphics getMainGraphics() {
         return mainGraphics;
     }
 
