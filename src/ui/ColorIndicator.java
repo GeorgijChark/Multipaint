@@ -51,7 +51,6 @@ public class ColorIndicator extends JPanel {
         });
     }
 
-
     public Color getColor() {
         return color;
     }
