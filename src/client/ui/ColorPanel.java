@@ -88,14 +88,14 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
         indicator.setColor(color);
         fp.setPencilColor(getColor());
         repaint();
-        getParent().getParent().repaint();
+        getParent().getParent().getParent().repaint();
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
         fp.setPencilColor(getColor());
         repaint();
-        getParent().getParent().repaint();
+        getParent().getParent().getParent().repaint();
         redBlock.setBackgroundColor(getColor());
         greenBlock.setBackgroundColor(getColor());
         blueBlock.setBackgroundColor(getColor());
