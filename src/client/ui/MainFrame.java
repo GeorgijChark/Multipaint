@@ -1,7 +1,6 @@
 package client.ui;
 
 import client.net.ConnectionManager;
-import javafx.scene.layout.ConstraintsBase;
 import ui.ChatPanel;
 
 import javax.swing.*;
@@ -25,22 +24,12 @@ public class MainFrame extends JFrame {
 
     public MainFrame() throws HeadlessException, IOException {
         initFrame();
-        connectionManager = new ConnectionManager(chatPanel);
+        connectionManager = new ConnectionManager(chatPanel, workspacePanel.getFieldPanel());
         workspacePanel.setConnectionManager(connectionManager);
         Thread connectionThread = new Thread(connectionManager);
         connectionThread.start();
     }
 
-    public Graphics getFieldPanelGraphics() {
-        return workspacePanel.getFieldPanel().getMainImage().getGraphics();
-    }
-
-    private void hideChat(){
-        chatPanel.setVisible(false);
-    }
-    private void showChat(){
-        chatPanel.setVisible(true);
-    }
 
     private void initFrame() {
         setTitle("Client");
@@ -48,13 +37,15 @@ public class MainFrame extends JFrame {
         setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
         workspacePanel = new WorkspacePanel();
         initTextField();
         initSpringLayout();
         pack();
         setVisible(true);
     }
-    private void initTextField(){
+
+    private void initTextField() {
         textField = new JTextField();
         textField.setBackground(Color.black);
         textField.setForeground(Color.white);
@@ -72,7 +63,7 @@ public class MainFrame extends JFrame {
                         connectionManager.setEnterPressed(true);
                     }
                 }
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     hideChat();
                 }
             }
@@ -81,10 +72,10 @@ public class MainFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(!chatPanel.isVisible()) {
+                if (!chatPanel.isVisible()) {
                     showChat();
                 } else {
-                    if(textField.getText().length() == 0){
+                    if (textField.getText().length() == 0) {
                         hideChat();
                     }
                 }
@@ -92,8 +83,7 @@ public class MainFrame extends JFrame {
         });
     }
 
-
-    private void initSpringLayout(){
+    private void initSpringLayout() {
         JLayeredPane layeredPane = new JLayeredPane();
 
         SpringLayout springLayout = new SpringLayout();
@@ -102,20 +92,20 @@ public class MainFrame extends JFrame {
         layeredPane.add(chatPanel, JLayeredPane.POPUP_LAYER);
         layeredPane.add(textField, JLayeredPane.DEFAULT_LAYER);
 
-        springLayout.putConstraint(SpringLayout.SOUTH, workspacePanel,0, SpringLayout.NORTH, textField);
-        springLayout.putConstraint(SpringLayout.NORTH, workspacePanel,0, SpringLayout.NORTH, layeredPane);
-        springLayout.putConstraint(SpringLayout.WEST, workspacePanel,0, SpringLayout.WEST, layeredPane);
-        springLayout.putConstraint(SpringLayout.EAST, workspacePanel,0, SpringLayout.EAST, layeredPane);
+        springLayout.putConstraint(SpringLayout.SOUTH, workspacePanel, 0, SpringLayout.NORTH, textField);
+        springLayout.putConstraint(SpringLayout.NORTH, workspacePanel, 0, SpringLayout.NORTH, layeredPane);
+        springLayout.putConstraint(SpringLayout.WEST, workspacePanel, 0, SpringLayout.WEST, layeredPane);
+        springLayout.putConstraint(SpringLayout.EAST, workspacePanel, 0, SpringLayout.EAST, layeredPane);
 
         springLayout.putConstraint(SpringLayout.NORTH, chatPanel, -CHAT_HEIGHT, SpringLayout.NORTH, textField);
-        springLayout.putConstraint(SpringLayout.SOUTH, chatPanel,0, SpringLayout.NORTH, textField);
-        springLayout.putConstraint(SpringLayout.WEST, chatPanel,0, SpringLayout.WEST, layeredPane);
-        springLayout.putConstraint(SpringLayout.EAST, chatPanel,0, SpringLayout.EAST, layeredPane);
+        springLayout.putConstraint(SpringLayout.SOUTH, chatPanel, 0, SpringLayout.NORTH, textField);
+        springLayout.putConstraint(SpringLayout.WEST, chatPanel, 0, SpringLayout.WEST, layeredPane);
+        springLayout.putConstraint(SpringLayout.EAST, chatPanel, 0, SpringLayout.EAST, layeredPane);
 
 
-        springLayout.putConstraint(SpringLayout.SOUTH, textField,0, SpringLayout.SOUTH, layeredPane);
-        springLayout.putConstraint(SpringLayout.WEST, textField,0, SpringLayout.WEST, layeredPane);
-        springLayout.putConstraint(SpringLayout.EAST, textField,0, SpringLayout.EAST, layeredPane);
+        springLayout.putConstraint(SpringLayout.SOUTH, textField, 0, SpringLayout.SOUTH, layeredPane);
+        springLayout.putConstraint(SpringLayout.WEST, textField, 0, SpringLayout.WEST, layeredPane);
+        springLayout.putConstraint(SpringLayout.EAST, textField, 0, SpringLayout.EAST, layeredPane);
 
         setLayout(new BorderLayout());
         add(layeredPane, BorderLayout.CENTER);
@@ -125,12 +115,18 @@ public class MainFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 System.err.println("click!");
-                System.err.println(""+layeredPane.getComponentCountInLayer(JLayeredPane.POPUP_LAYER));
-                System.err.println(""+layeredPane.getComponentCount());
+                System.err.println("" + layeredPane.getComponentCountInLayer(JLayeredPane.POPUP_LAYER));
+                System.err.println("" + layeredPane.getComponentCount());
 
             }
         });
     }
 
+    private void hideChat() {
+        chatPanel.setVisible(false);
+    }
 
+    private void showChat() {
+        chatPanel.setVisible(true);
+    }
 }

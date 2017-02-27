@@ -15,7 +15,7 @@ public class Command {
     public int getNumberOfArguments() {
         switch (name) {
             case "line":
-                return 9;
+                return 10;
         }
 
         return 0;
@@ -35,7 +35,9 @@ public class Command {
         if (name.equals("line")) {
             new Line(new int[]{(int) arguments.get(1), (int) arguments.get(2)},
                     new int[]{(int) arguments.get(3), (int) arguments.get(4)},
-                    (int) arguments.get(5), new Color((int) arguments.get(6), (int) arguments.get(7), (int) arguments.get(8))).draw((Graphics) arguments.get(0));
+                    (int) arguments.get(5),
+                    new Color((int) arguments.get(6), (int) arguments.get(7), (int) arguments.get(8), (int) arguments.get(9)))
+                    .draw((Graphics) arguments.get(0));
         }
     }
 }

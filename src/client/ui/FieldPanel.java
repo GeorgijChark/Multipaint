@@ -8,8 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
 import java.io.IOException;
 
 public class FieldPanel extends JPanel {
@@ -25,21 +23,23 @@ public class FieldPanel extends JPanel {
     private int[] nowPosition;
     private int pencilSize;
     private int dx = 0, dy = 0;
+    private boolean basicMode;
 
     FieldPanel(int fieldWidth, int fieldHeight) throws IOException {
         nowPosition = new int[]{-1, -1};
         lastPosition = new int[]{-1, -1};
         pencilSize = 20;
+        pencilColor = Color.black;
         soft = false;
+        basicMode = false;
+        leftPressed = false;
+        rightPressed = false;
+
         setSize(fieldWidth, fieldHeight);
         setPreferredSize(new Dimension(fieldWidth, fieldHeight));
         setMaximumSize(new Dimension(fieldWidth, fieldHeight));
-        leftPressed = false;
-        rightPressed = false;
         setOpaque(true);
         setVisible(true);
-        pencilColor = Color.black;
-        setBackground(Color.white);
 
         mainImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -89,26 +89,14 @@ public class FieldPanel extends JPanel {
                         lastPosition = new int[]{e.getX(), e.getY()};
                         break;
                 }
-                if (leftPressed) {
-                    tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-                    tempGraphics = tempImage.getGraphics();
-                    ((Graphics2D) tempGraphics).setComposite(soft ? AlphaComposite.SrcOver : AlphaComposite.Src);
-                    drawLine(e.getX(), e.getY());
-                    if (soft) {
-                        (new SoftLine(lastPosition, new int[]{e.getX(), e.getY()}, pencilSize, pencilColor)).draw(tempGraphics);
-                    }
-                    lastPosition = new int[]{e.getX(), e.getY()};
+                tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+                tempGraphics = tempImage.getGraphics();
+                ((Graphics2D) tempGraphics).setComposite(soft ? AlphaComposite.SrcOver : AlphaComposite.Src);
+                drawLine(e.getX(), e.getY());
+                if (soft) {
+                    (new SoftLine(lastPosition, new int[]{e.getX(), e.getY()}, pencilSize, pencilColor)).draw(tempGraphics);
                 }
-                if (rightPressed) {
-                    tempImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-                    tempGraphics = tempImage.getGraphics();
-                    ((Graphics2D) tempGraphics).setComposite(soft ? AlphaComposite.SrcOver : AlphaComposite.Src);
-                    drawLine(e.getX(), e.getY());
-                    if (soft) {
-                        (new SoftLine(lastPosition, new int[]{e.getX(), e.getY()}, pencilSize, pencilColor)).draw(tempGraphics);
-                    }
-                    lastPosition = new int[]{e.getX(), e.getY()};
-                }
+                lastPosition = new int[]{e.getX(), e.getY()};
                 repaint();
             }
 
@@ -143,10 +131,10 @@ public class FieldPanel extends JPanel {
                 repaint();
             }
         });
+
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-
                 if (leftPressed) {
                     drawLine(e.getX(), e.getY());
                     lastPosition = new int[]{e.getX(), e.getY()};
@@ -159,31 +147,14 @@ public class FieldPanel extends JPanel {
                 repaint();
             }
 
-
             @Override
             public void mouseMoved(MouseEvent e) {
-
                 nowPosition = new int[]{e.getX(), e.getY()};
                 repaint();
             }
         });
 
 
-    }
-
-    static BufferedImage deepCopy(BufferedImage bi) {
-        ColorModel cm = bi.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = bi.copyData(null);
-        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
-    }
-
-    BufferedImage getMainImage() {
-        return mainImage;
-    }
-
-    void setConnectionManager(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
     }
 
     private void drawLine(int x, int y) {
@@ -196,20 +167,20 @@ public class FieldPanel extends JPanel {
                 dx = 0;
                 dy = 0;
             }
-
         } else {
             (new Line(lastPosition, new int[]{x, y}, pencilSize, pencilColor)).draw(tempGraphics);
         }
-        if (connectionManager.isConnected())
+        if (connectionManager.isConnected()) {
             connectionManager.sendCommand("line" + " " + lastPosition[0] + " " + lastPosition[1] + " " + x + " " + y +
                     " " + pencilSize + " "
-                    + pencilColor.getRed() + " " + pencilColor.getGreen() + " " + pencilColor.getBlue());
+                    + pencilColor.getRed() + " " + pencilColor.getGreen() + " " + pencilColor.getBlue() + " " + pencilColor.getAlpha());
+        }
     }
 
     public void paintComponent(Graphics g1) {
         Graphics2D g = (Graphics2D) g1;
         super.paintComponent(g);
-        if(!rightPressed) {
+        if (!rightPressed) {
             g.drawImage(backgroundImage, 0, 0, null);
             g.drawImage(mainImage, 0, 0, null);
             g.drawImage(tempImage, 0, 0, null);
@@ -220,7 +191,7 @@ public class FieldPanel extends JPanel {
             superTempGraphics.drawImage(mainImage, 0, 0, null);
             superTempGraphics.setComposite(AlphaComposite.DstOut);
             superTempGraphics.drawImage(tempImage, 0, 0, null);
-            g.drawImage(superTempImage,0,0,null);
+            g.drawImage(superTempImage, 0, 0, null);
         }
         if (nowPosition[0] + nowPosition[1] > 0) {
             g.setColor(Color.black);
@@ -231,25 +202,28 @@ public class FieldPanel extends JPanel {
 
     }
 
-    public String toString() {
-
-        return "";
+    public Graphics getGraphics() {
+        return mainGraphics;
     }
 
     Color getPencilColor() {
         return pencilColor;
     }
 
-    void setPencilColor(Color pencilColor) {
-        this.pencilColor = pencilColor;
-    }
-
     int getPencilSize() {
         return pencilSize;
     }
 
+    void setPencilColor(Color pencilColor) {
+        this.pencilColor = pencilColor;
+    }
+
     void setPencilSize(int pencilSize) {
         this.pencilSize = pencilSize;
+    }
+
+    void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
     }
 
 }

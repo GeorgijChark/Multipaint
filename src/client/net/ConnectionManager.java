@@ -1,5 +1,6 @@
 package client.net;
 
+import client.ui.FieldPanel;
 import client.ui.MainFrame;
 import graphics.Command;
 import net.Message;
@@ -23,21 +24,24 @@ public class ConnectionManager implements Runnable {
 
     private static String HOST = "127.0.0.1";
     private static int PORT = 2391;
+
     private Socket socketToServer;
     private String username = "Somebody1";
     private PrintWriter netPrintWriter;
     private Input in;
-    private ChatPanel chatPanel;
     private boolean connected = false;
     private boolean enterPressed = false;
     private ArrayList<String> commandsQueue;
 
-    public ConnectionManager(String username, ChatPanel chatPanel) {
+    private ChatPanel chatPanel;
+    private FieldPanel fieldPanel;
+
+    public ConnectionManager(String username, ChatPanel chatPanel, FieldPanel fieldPanel) {
         this.username = username;
         this.chatPanel = chatPanel;
     }
 
-    public ConnectionManager(ChatPanel chatPanel) {
+    public ConnectionManager(ChatPanel chatPanel, FieldPanel fieldPanel) {
         username = "Unnamed " + (new Random().nextInt(1000));
         this.chatPanel = chatPanel;
     }
@@ -112,7 +116,7 @@ public class ConnectionManager implements Runnable {
         StringStream stringStream = new StringStream(comText);
         String type = stringStream.next();
         Command com = new Command("line");
-        com.addArgument(((MainFrame) chatPanel.getParent().getParent().getParent().getParent().getParent()).getFieldPanelGraphics());
+        com.addArgument(fieldPanel.getGraphics());
         for (int i = 1; i < com.getNumberOfArguments(); i++) {
             com.addArgument(stringStream.nextInt());
         }
