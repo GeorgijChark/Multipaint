@@ -3,7 +3,7 @@ package graphics;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-class Shape {
+public class Shape {
     void draw(Graphics g, int size, int x, int y) {
         g.fillOval(x, y, size, size);
     }

@@ -9,14 +9,16 @@ import java.awt.event.MouseEvent;
 
 public class BasicColorButton extends JButton {
     private Color color;
+    private ColorPanel colorPanel;
 
-    public BasicColorButton(Color color) {
+    public BasicColorButton(Color color, ColorPanel colorPanel) {
         this.color = color;
+        this.colorPanel = colorPanel;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseClicked(e);
-                ((ColorPanel) getParent().getParent().getParent()).setColor(color);
+                colorPanel.setColor(color);
             }
         });
     }
@@ -33,7 +35,6 @@ public class BasicColorButton extends JButton {
     public void paintComponent(Graphics g) {
         g.setColor(color);
         g.fillRect(0, 0, getWidth(), getHeight());
-
     }
 
 

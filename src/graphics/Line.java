@@ -17,8 +17,6 @@ public class Line {
         shape = new Shape();
     }
 
-
-
     public void draw(Graphics g) {
         int dy = (last[1] - first[1]), dx = (last[0] - first[0]);
         int steps = Math.max(Math.abs(dx), Math.abs(dy));

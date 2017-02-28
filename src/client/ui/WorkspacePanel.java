@@ -23,7 +23,7 @@ class WorkspacePanel extends JPanel {
 
         SizePanel sizePanel = new SizePanel(20);
         sizePanel.setFp(fieldPanel);
-        ColorPanel colorPanel = new ColorPanel(0, 0, 0);
+        ColorPanel colorPanel = new ColorPanel(fieldPanel);
         colorPanel.setFp(fieldPanel);
 
         GridBagLayout gbl = new GridBagLayout();

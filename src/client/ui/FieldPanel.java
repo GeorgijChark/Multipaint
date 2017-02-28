@@ -14,6 +14,11 @@ public class FieldPanel extends JPanel {
 
     private final int BACKGROUND_CELL_SIZE = 5;
     private boolean leftPressed, rightPressed;
+
+    public void setSoft(boolean soft) {
+        this.soft = soft;
+    }
+
     private boolean soft;
     private BufferedImage mainImage, tempImage, backgroundImage;
     private Graphics mainGraphics, tempGraphics, backgroundGraphics;
@@ -30,7 +35,7 @@ public class FieldPanel extends JPanel {
         lastPosition = new int[]{-1, -1};
         pencilSize = 20;
         pencilColor = Color.black;
-        soft = false;
+        soft = true;
         basicMode = false;
         leftPressed = false;
         rightPressed = false;
@@ -146,6 +151,7 @@ public class FieldPanel extends JPanel {
                 nowPosition = new int[]{e.getX(), e.getY()};
                 repaint();
             }
+
             @Override
             public void mouseMoved(MouseEvent e) {
                 nowPosition = new int[]{e.getX(), e.getY()};

@@ -17,12 +17,13 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
     private ColorIndicator indicator;
 
 
-    public ColorPanel(int r, int g, int b) {
+    public ColorPanel(FieldPanel fieldPanel) {
         super();
+        fp = fieldPanel;
         setBackground(Color.white);
-        redBlock = new ColorBlock(r, 0, 255, 0);
-        greenBlock = new ColorBlock(g, 0, 255, 1);
-        blueBlock = new ColorBlock(b, 0, 255, 2);
+        redBlock = new ColorBlock(0, 0, 255, 0);
+        greenBlock = new ColorBlock(0, 0, 255, 1);
+        blueBlock = new ColorBlock(0, 0, 255, 2);
         alphaBlock = new ColorBlock(255, 0, 255, 3);
         redBlock.addChangeListener(this);
         greenBlock.addChangeListener(this);
@@ -39,7 +40,7 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
                 colorComponent[i] = (int) abs(255 * (sin(j * PI / (2 * (cols - 1)))));
                 colorComponent[(i + 1) % 3] = (int) abs(255 * (sin(j * PI / (2 * (cols - 1)) + PI / 2)));
                 colorComponent[(i + 2) % 3] = (int) abs(255 * (sin(j * PI / (2 * (cols - 1)) - PI / 2)));
-                basicColorPanel.add(new BasicColorButton(new Color(colorComponent[0], colorComponent[1], colorComponent[2])));
+                basicColorPanel.add(new BasicColorButton(new Color(colorComponent[0], colorComponent[1], colorComponent[2]),this));
             }
         }
 
