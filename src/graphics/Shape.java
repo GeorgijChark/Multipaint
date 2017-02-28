@@ -3,10 +3,9 @@ package graphics;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Shape {
-    void draw(Graphics g, int size, int x, int y) {
-        g.fillOval(x, y, size, size);
-    }
+abstract public class Shape {
+    public abstract void draw(Graphics g, int size, int x, int y);
+    public abstract void drawContour(Graphics g, int size, int x, int y);
 
     void softDraw(Graphics g, int size, int x, int y) {
         Color color = g.getColor();

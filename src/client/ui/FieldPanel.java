@@ -1,8 +1,8 @@
 package client.ui;
 
 import client.net.ConnectionManager;
-import graphics.Line;
-import graphics.SoftLine;
+import graphics.*;
+import graphics.Shape;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,15 +15,14 @@ public class FieldPanel extends JPanel {
     private final int BACKGROUND_CELL_SIZE = 5;
     private boolean leftPressed, rightPressed;
 
-    public void setSoft(boolean soft) {
-        this.soft = soft;
-    }
+
 
     private boolean soft;
     private BufferedImage mainImage, tempImage, backgroundImage;
     private Graphics mainGraphics, tempGraphics, backgroundGraphics;
     private ConnectionManager connectionManager;
     private Color pencilColor;
+    private Shape shape;
     private int[] lastPosition;
     private int[] nowPosition;
     private int pencilSize;
@@ -35,10 +34,12 @@ public class FieldPanel extends JPanel {
         lastPosition = new int[]{-1, -1};
         pencilSize = 20;
         pencilColor = Color.black;
-        soft = true;
+        shape = new SCircle();
+        soft = false;
         basicMode = false;
         leftPressed = false;
         rightPressed = false;
+
 
         setSize(fieldWidth, fieldHeight);
         setPreferredSize(new Dimension(fieldWidth, fieldHeight));
@@ -99,7 +100,7 @@ public class FieldPanel extends JPanel {
                 ((Graphics2D) tempGraphics).setComposite(soft ? AlphaComposite.SrcOver : AlphaComposite.Src);
                 drawLine(e.getX(), e.getY());
                 if (soft) {
-                    (new SoftLine(lastPosition, new int[]{e.getX(), e.getY()}, pencilSize, pencilColor)).draw(tempGraphics);
+                    (new Line(lastPosition, new int[]{e.getX(), e.getY()}, pencilSize, pencilColor, shape)).softDraw(tempGraphics);
                 }
                 lastPosition = new int[]{e.getX(), e.getY()};
                 repaint();
@@ -136,7 +137,6 @@ public class FieldPanel extends JPanel {
                 repaint();
             }
         });
-
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -158,8 +158,6 @@ public class FieldPanel extends JPanel {
                 repaint();
             }
         });
-
-
     }
 
     private void drawLine(int x, int y) {
@@ -168,12 +166,12 @@ public class FieldPanel extends JPanel {
             dx += (Math.abs(lastPosition[0] - x));
             dy += (Math.abs(lastPosition[1] - y));
             if (dx + dy > Math.min(pencilSize / 2, 15)) {
-                (new SoftLine(lastPosition, new int[]{x, y}, pencilSize, pencilColor)).draw(tempGraphics);
+                (new Line(lastPosition, new int[]{x, y}, pencilSize, pencilColor, shape)).softDraw(tempGraphics);
                 dx = 0;
                 dy = 0;
             }
         } else {
-            (new Line(lastPosition, new int[]{x, y}, pencilSize, pencilColor)).draw(tempGraphics);
+            (new Line(lastPosition, new int[]{x, y}, pencilSize, pencilColor, shape)).draw(tempGraphics);
         }
         if (connectionManager.isConnected()) {
             connectionManager.sendCommand("line" + " " + lastPosition[0] + " " + lastPosition[1] + " " + x + " " + y +
@@ -200,7 +198,7 @@ public class FieldPanel extends JPanel {
         }
         if (nowPosition[0] + nowPosition[1] > 0) {
             g.setColor(Color.black);
-            g.drawOval(nowPosition[0] - pencilSize, nowPosition[1] - pencilSize, 2 * pencilSize, 2 * pencilSize);
+            shape.drawContour(g,2 * pencilSize,nowPosition[0] - pencilSize, nowPosition[1] - pencilSize);
             g.setColor(Color.white);
             g.drawOval(nowPosition[0] - pencilSize - 1, nowPosition[1] - pencilSize - 1, 2 * pencilSize + 2, 2 * pencilSize + 2);
         }
@@ -231,5 +229,8 @@ public class FieldPanel extends JPanel {
         this.connectionManager = connectionManager;
     }
 
+    public void setSoft(boolean soft) {
+        this.soft = soft;
+    }
 }
 

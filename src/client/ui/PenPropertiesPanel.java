@@ -1,5 +1,6 @@
 package client.ui;
 
+import graphics.SCircle;
 import graphics.Shape;
 import ui.BasicShapeButton;
 
@@ -22,7 +23,7 @@ public class PenPropertiesPanel extends FastSettingsPanel {
 
     public PenPropertiesPanel(FieldPanel fieldPanel) {
         this.fieldPanel = fieldPanel;
-        shape = new Shape();
+        shape = new SCircle();
         size = 20;
         soft = false;
         initPanel();
@@ -36,15 +37,12 @@ public class PenPropertiesPanel extends FastSettingsPanel {
         JPanel shapeGridPanel = new JPanel(new GridLayout(rows,cols));
         for(int i = 0; i<cols; i++){
             for(int j = 0; j<rows;j++){
-                shapeGridPanel.add(new BasicShapeButton(new Shape(),this));
+                shapeGridPanel.add(new BasicShapeButton(new SCircle(),this));
             }
         }
-
-
     }
 
     public void setShape(Shape shape) {
         this.shape = shape;
     }
-
 }
