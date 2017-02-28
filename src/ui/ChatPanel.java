@@ -2,28 +2,21 @@ package ui;
 
 import net.Message;
 import util.FontFactory;
-import util.StringFormats;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
 import java.util.ArrayList;
-
-import static util.FontFactory.ITALIC_MESSAGE;
 
 public class ChatPanel extends JPanel {
 
     private ArrayList<Message> messages;
     private int currentScrollPosition = 0;
-    private int STRING_HEIGHT = FontFactory.textSize+5;
+    private int STRING_HEIGHT = FontFactory.textSize + 5;
 
     public ChatPanel() {
         setDoubleBuffered(true);
         setOpaque(false);
-        setBackground(new Color(0,0,0,220));
+        setBackground(new Color(0, 0, 0, 220));
         messages = new ArrayList<>();
         addMouseWheelListener(e -> {
             currentScrollPosition -= e.getWheelRotation();
@@ -56,16 +49,16 @@ public class ChatPanel extends JPanel {
                 color = new Color(200, 250, 250);
             if (sender.equals("Paint"))
                 color = new Color(255, 232, 0);
-            messages.get(i).draw(g, 20 + getHeight() + STRING_HEIGHT * i  - messages.size() * STRING_HEIGHT + STRING_HEIGHT * currentScrollPosition, color);
+            messages.get(i).draw(g, 20 + getHeight() + STRING_HEIGHT * i - messages.size() * STRING_HEIGHT + STRING_HEIGHT * currentScrollPosition, color);
         }
     }
 
-    private void drawBackground(Graphics2D g){
-        g.setColor(new Color(0,0,0,210));
-        g.fillRect(0,STRING_HEIGHT,getWidth(),getHeight());
-        for(int i = 0; i<STRING_HEIGHT; i++){
-            g.setColor(new Color(0,0,0,i*210/STRING_HEIGHT));
-            g.drawLine(0,i,getWidth(),i);
+    private void drawBackground(Graphics2D g) {
+        g.setColor(new Color(0, 0, 0, 210));
+        g.fillRect(0, STRING_HEIGHT, getWidth(), getHeight());
+        for (int i = 0; i < STRING_HEIGHT; i++) {
+            g.setColor(new Color(0, 0, 0, i * 210 / STRING_HEIGHT));
+            g.drawLine(0, i, getWidth(), i);
         }
     }
 }

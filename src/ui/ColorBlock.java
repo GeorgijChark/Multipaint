@@ -20,7 +20,6 @@ public class ColorBlock extends JPanel {
         setBackground(Color.white);
         colorSlider = new ColorSlider(value, min, max, type);
         valueLabel = new JLabel(type != 3 ? " 000" : " 255");
-        valueLabel.setLabelFor(colorSlider);
         this.value = value;
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();

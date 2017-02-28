@@ -12,15 +12,22 @@ import java.awt.*;
 import static java.lang.StrictMath.*;
 
 public class ColorPanel extends FastSettingsPanel implements ChangeListener {
-    private int VGAP = 5;
     private ColorBlock redBlock, greenBlock, blueBlock, alphaBlock;
     private ColorIndicator indicator;
+    private JPanel basicColorPanel;
 
 
     public ColorPanel(FieldPanel fieldPanel) {
         super();
         fp = fieldPanel;
         setBackground(Color.white);
+        initComponents();
+        initLayout();
+
+
+    }
+
+    private void initComponents() {
         redBlock = new ColorBlock(0, 0, 255, 0);
         greenBlock = new ColorBlock(0, 0, 255, 1);
         blueBlock = new ColorBlock(0, 0, 255, 2);
@@ -33,18 +40,20 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
         indicator = new ColorIndicator();
 
         int cols = 7;
-        JPanel basicColorPanel = new JPanel(new GridLayout(3, cols));
+        basicColorPanel = new JPanel(new GridLayout(3, cols));
         int[] colorComponent = new int[3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < cols; j++) {
                 colorComponent[i] = (int) abs(255 * (sin(j * PI / (2 * (cols - 1)))));
                 colorComponent[(i + 1) % 3] = (int) abs(255 * (sin(j * PI / (2 * (cols - 1)) + PI / 2)));
                 colorComponent[(i + 2) % 3] = (int) abs(255 * (sin(j * PI / (2 * (cols - 1)) - PI / 2)));
-                basicColorPanel.add(new BasicColorButton(new Color(colorComponent[0], colorComponent[1], colorComponent[2]),this));
+                basicColorPanel.add(new BasicColorButton(new Color(colorComponent[0], colorComponent[1], colorComponent[2]), this));
             }
         }
 
+    }
 
+    private void initLayout() {
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         setLayout(layout);
@@ -70,7 +79,6 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
         pairPanel.add(indicator);
         pairPanel.add(basicColorPanel);
         add(pairPanel, constraints);
-
     }
 
     public void setFp(FieldPanel fp) {

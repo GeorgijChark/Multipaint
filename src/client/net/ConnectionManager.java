@@ -1,7 +1,6 @@
 package client.net;
 
 import client.ui.FieldPanel;
-import client.ui.MainFrame;
 import graphics.Command;
 import net.Message;
 import ui.ChatPanel;
@@ -14,7 +13,6 @@ import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
 
@@ -96,7 +94,7 @@ public class ConnectionManager implements Runnable {
         }
         netPrintWriter.println(username);
         sendMessage("Hi, I'm " + username);
-        while (takeMessage());
+        while (takeMessage()) ;
 
     }
 

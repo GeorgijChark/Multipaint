@@ -3,14 +3,12 @@ package server.ui;
 import net.Message;
 import server.net.ConnectionManager;
 import ui.ChatPanel;
-import util.StringFormats.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.Date;
 
 import static util.FontFactory.CHAT_FONT;
 import static util.StringFormats.getTime;
@@ -45,7 +43,7 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    private void initTextField(){
+    private void initTextField() {
         textField = new JTextField();
         textField.setBackground(Color.black);
         textField.setForeground(Color.white);
@@ -56,7 +54,7 @@ public class MainFrame extends JFrame {
                 super.keyReleased(e);
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (textField.getText().length() != 0) {
-                        connectionManager.resend(new Message("Server", textField.getText(), ""+getTime(System.currentTimeMillis())));
+                        connectionManager.resend(new Message("Server", textField.getText(), "" + getTime(System.currentTimeMillis())));
                         textField.setText("");
                     }
                 }
@@ -64,7 +62,7 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private void initLayout(){
+    private void initLayout() {
         GridBagLayout gbl = new GridBagLayout();
         setLayout(gbl);
         GridBagConstraints c = new GridBagConstraints();

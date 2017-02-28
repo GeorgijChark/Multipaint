@@ -1,5 +1,7 @@
 package graphics;
 
+import graphics.shape.SCircle;
+
 import java.awt.*;
 import java.util.ArrayList;
 

@@ -8,8 +8,8 @@ import java.io.IOException;
 
 
 class WorkspacePanel extends JPanel {
-    private FieldPanel fieldPanel;
     private static final int fieldWidth = 800, fieldHeight = 800;
+    private FieldPanel fieldPanel;
 
     WorkspacePanel() {
         setDoubleBuffered(true);
@@ -21,11 +21,8 @@ class WorkspacePanel extends JPanel {
             e.printStackTrace();
         }
 
-        SizePanel sizePanel = new SizePanel(20);
-        sizePanel.setFp(fieldPanel);
+        PenPropertiesPanel penPropertiesPanel = new PenPropertiesPanel(fieldPanel);
         ColorPanel colorPanel = new ColorPanel(fieldPanel);
-        colorPanel.setFp(fieldPanel);
-
         GridBagLayout gbl = new GridBagLayout();
         setLayout(gbl);
         GridBagConstraints c = new GridBagConstraints();
@@ -43,7 +40,7 @@ class WorkspacePanel extends JPanel {
         c.gridx = 2;
         c.anchor = GridBagConstraints.NORTHEAST;
         JPanel settingsPanel = new JPanel(new GridLayout(2, 1, 10, 10));
-        settingsPanel.add(sizePanel);
+        settingsPanel.add(penPropertiesPanel);
         settingsPanel.add(colorPanel);
         gbl.setConstraints(settingsPanel, c);
         add(settingsPanel);

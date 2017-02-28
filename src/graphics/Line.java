@@ -7,9 +7,9 @@ public class Line {
     protected Color color;
     int[] first, last;
     int size;
-    Shape shape;
+    graphics.shape.Shape shape;
 
-    public Line(int[] first, int[] last, int size, Color color, Shape shape) {
+    public Line(int[] first, int[] last, int size, Color color, graphics.shape.Shape shape) {
         this.first = first;
         this.last = last;
         this.size = size;

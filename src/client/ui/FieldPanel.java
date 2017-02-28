@@ -1,8 +1,9 @@
 package client.ui;
 
 import client.net.ConnectionManager;
-import graphics.*;
-import graphics.Shape;
+import graphics.Line;
+import graphics.shape.SCircle;
+import graphics.shape.Shape;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,6 @@ public class FieldPanel extends JPanel {
 
     private final int BACKGROUND_CELL_SIZE = 5;
     private boolean leftPressed, rightPressed;
-
 
 
     private boolean soft;
@@ -39,7 +39,6 @@ public class FieldPanel extends JPanel {
         basicMode = false;
         leftPressed = false;
         rightPressed = false;
-
 
         setSize(fieldWidth, fieldHeight);
         setPreferredSize(new Dimension(fieldWidth, fieldHeight));
@@ -160,6 +159,10 @@ public class FieldPanel extends JPanel {
         });
     }
 
+    public void setShape(Shape shape) {
+        this.shape = shape;
+    }
+
     private void drawLine(int x, int y) {
         if (soft) {
             ((Graphics2D) tempGraphics).setComposite(AlphaComposite.SrcOver);
@@ -198,9 +201,9 @@ public class FieldPanel extends JPanel {
         }
         if (nowPosition[0] + nowPosition[1] > 0) {
             g.setColor(Color.black);
-            shape.drawContour(g,2 * pencilSize,nowPosition[0] - pencilSize, nowPosition[1] - pencilSize);
+            shape.drawContour(g, 2 * pencilSize, nowPosition[0] - pencilSize, nowPosition[1] - pencilSize);
             g.setColor(Color.white);
-            g.drawOval(nowPosition[0] - pencilSize - 1, nowPosition[1] - pencilSize - 1, 2 * pencilSize + 2, 2 * pencilSize + 2);
+            shape.drawContour(g,2 * pencilSize + 2,nowPosition[0] - pencilSize - 1, nowPosition[1] - pencilSize - 1);
         }
 
     }
@@ -213,12 +216,12 @@ public class FieldPanel extends JPanel {
         return pencilColor;
     }
 
-    int getPencilSize() {
-        return pencilSize;
-    }
-
     void setPencilColor(Color pencilColor) {
         this.pencilColor = pencilColor;
+    }
+
+    int getPencilSize() {
+        return pencilSize;
     }
 
     void setPencilSize(int pencilSize) {

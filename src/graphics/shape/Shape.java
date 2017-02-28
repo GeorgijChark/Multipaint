@@ -1,13 +1,14 @@
-package graphics;
+package graphics.shape;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 abstract public class Shape {
     public abstract void draw(Graphics g, int size, int x, int y);
+
     public abstract void drawContour(Graphics g, int size, int x, int y);
 
-    void softDraw(Graphics g, int size, int x, int y) {
+    public void softDraw(Graphics g, int size, int x, int y) {
         Color color = g.getColor();
         int red = color.getRed(), green = color.getGreen(), blue = color.getBlue(), alpha = color.getAlpha();
         BufferedImage ti = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);

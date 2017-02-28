@@ -3,10 +3,6 @@ package ui;
 import client.ui.ColorPanel;
 
 import javax.swing.*;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -35,15 +31,15 @@ public class ColorIndicator extends JPanel {
                 saveButton.addActionListener(listener);
                 applyButton.addActionListener(listener);
                 JPanel buttonsPanel = new JPanel();
-                buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10,10));
+                buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
                 buttonsPanel.add(saveButton);
                 buttonsPanel.add(cancelButton);
                 buttonsPanel.add(applyButton);
                 colorChooser.setVisible(true);
                 colorChooserFrame = new JFrame("Choose color");
                 colorChooserFrame.setLayout(new BorderLayout());
-                colorChooserFrame.add(colorChooser,BorderLayout.NORTH);
-                colorChooserFrame.add(buttonsPanel,BorderLayout.SOUTH);
+                colorChooserFrame.add(colorChooser, BorderLayout.NORTH);
+                colorChooserFrame.add(buttonsPanel, BorderLayout.SOUTH);
                 colorChooserFrame.pack();
                 colorChooserFrame.setVisible(true);
                 colorChooserFrame.setResizable(false);
@@ -60,20 +56,24 @@ public class ColorIndicator extends JPanel {
         setBackground(color);
     }
 
-    private void save(){
+    private void save() {
         color = colorChooser.getColor();
         ((ColorPanel) getParent().getParent()).setColor(color);
     }
 
-    private void close(){
-        colorChooserFrame.dispatchEvent(new WindowEvent(colorChooserFrame,WindowEvent.WINDOW_CLOSING));
+    private void close() {
+        colorChooserFrame.dispatchEvent(new WindowEvent(colorChooserFrame, WindowEvent.WINDOW_CLOSING));
     }
 
     private class ButtonsListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getActionCommand().contains("save")){save();}
-            if(e.getActionCommand().contains("exit")){close();}
+            if (e.getActionCommand().contains("save")) {
+                save();
+            }
+            if (e.getActionCommand().contains("exit")) {
+                close();
+            }
         }
     }
 

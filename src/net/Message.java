@@ -8,6 +8,7 @@ import static util.FontFactory.*;
 
 public class Message {
     private String sender, text, time;
+
     public Message(String sender, String text, String time) {
         this.sender = sender;
         this.text = text;
