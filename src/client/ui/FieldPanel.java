@@ -16,7 +16,6 @@ public class FieldPanel extends JPanel {
     private final int BACKGROUND_CELL_SIZE = 5;
     private boolean leftPressed, rightPressed;
 
-
     private boolean soft;
     private BufferedImage mainImage, tempImage, backgroundImage;
     private Graphics mainGraphics, tempGraphics, backgroundGraphics;
@@ -63,19 +62,7 @@ public class FieldPanel extends JPanel {
             }
         }
 
-        addMouseWheelListener(new MouseAdapter() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                super.mouseWheelMoved(e);
-                pencilSize -= e.getWheelRotation() * e.getWheelRotation() * e.getWheelRotation() / Math.abs(e.getWheelRotation());
-                if (pencilSize > 1000)
-                    pencilSize = 1000;
-                if (pencilSize < 1)
-                    pencilSize = 1;
-                repaint();
-                getParent().repaint();
-            }
-        });
+
 
         addMouseListener(new MouseListener() {
             @Override
@@ -159,9 +146,7 @@ public class FieldPanel extends JPanel {
         });
     }
 
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
+
 
     private void drawLine(int x, int y) {
         if (soft) {
@@ -203,7 +188,7 @@ public class FieldPanel extends JPanel {
             g.setColor(Color.black);
             shape.drawContour(g, 2 * pencilSize, nowPosition[0] - pencilSize, nowPosition[1] - pencilSize);
             g.setColor(Color.white);
-            shape.drawContour(g,2 * pencilSize + 2,nowPosition[0] - pencilSize - 1, nowPosition[1] - pencilSize - 1);
+            shape.drawContour(g, 2 * pencilSize + 2, nowPosition[0] - pencilSize - 1, nowPosition[1] - pencilSize - 1);
         }
 
     }
@@ -211,29 +196,26 @@ public class FieldPanel extends JPanel {
     public Graphics getMainGraphics() {
         return mainGraphics;
     }
-
     Color getPencilColor() {
         return pencilColor;
     }
-
-    void setPencilColor(Color pencilColor) {
-        this.pencilColor = pencilColor;
-    }
-
     int getPencilSize() {
         return pencilSize;
     }
-
+    void setPencilColor(Color pencilColor) {
+        this.pencilColor = pencilColor;
+    }
     void setPencilSize(int pencilSize) {
         this.pencilSize = pencilSize;
     }
-
+    void setShape(Shape shape) {
+        this.shape = shape;
+    }
+    void setSoft(boolean soft) {
+        this.soft = soft;
+    }
     void setConnectionManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
-    }
-
-    public void setSoft(boolean soft) {
-        this.soft = soft;
     }
 }
 

@@ -92,7 +92,7 @@ public class PenPropertiesPanel extends FastSettingsPanel {
 
     }
 
-    private void updateSize(int size) {
+    void updateSize(int size) {
         this.size = size;
         sizeLabel.setText("" + size);
         sizeSlider.setValue(size);

@@ -4,11 +4,15 @@ import client.net.ConnectionManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
 
 
 class WorkspacePanel extends JPanel {
     private static final int fieldWidth = 800, fieldHeight = 800;
+    private ColorPanel colorPanel;
+    private PenPropertiesPanel penPropertiesPanel;
     private FieldPanel fieldPanel;
 
     WorkspacePanel() {
@@ -21,8 +25,8 @@ class WorkspacePanel extends JPanel {
             e.printStackTrace();
         }
 
-        PenPropertiesPanel penPropertiesPanel = new PenPropertiesPanel(fieldPanel);
-        ColorPanel colorPanel = new ColorPanel(fieldPanel);
+        penPropertiesPanel = new PenPropertiesPanel(fieldPanel);
+        colorPanel = new ColorPanel(fieldPanel);
         GridBagLayout gbl = new GridBagLayout();
         setLayout(gbl);
         GridBagConstraints c = new GridBagConstraints();
@@ -46,11 +50,11 @@ class WorkspacePanel extends JPanel {
         add(settingsPanel);
     }
 
-    public FieldPanel getFieldPanel() {
+    FieldPanel getFieldPanel() {
         return fieldPanel;
     }
 
-    public void setConnectionManager(ConnectionManager connectionManager) {
+    void setConnectionManager(ConnectionManager connectionManager) {
         fieldPanel.setConnectionManager(connectionManager);
     }
 
@@ -58,5 +62,20 @@ class WorkspacePanel extends JPanel {
         fieldPanel = new FieldPanel(fieldWidth, fieldHeight);
         fieldPanel.setPreferredSize(new Dimension(fieldWidth, fieldHeight));
         fieldPanel.setDoubleBuffered(true);
+        fieldPanel.addMouseWheelListener(new MouseAdapter() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                super.mouseWheelMoved(e);
+                int dSize = - e.getWheelRotation() * e.getWheelRotation() * e.getWheelRotation() / Math.abs(e.getWheelRotation());
+                fieldPanel.setPencilSize(fieldPanel.getPencilSize()+dSize);
+                if (fieldPanel.getPencilSize() > 1000)
+                    fieldPanel.setPencilSize(1000);
+                if (fieldPanel.getPencilSize() < 1)
+                    fieldPanel.setPencilSize(1);
+                penPropertiesPanel.updateSize(fieldPanel.getPencilSize());
+                repaint();
+
+            }
+        });
     }
 }
