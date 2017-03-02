@@ -3,6 +3,7 @@ package client.ui;
 import client.net.ConnectionManager;
 import client.ui.settings.ColorPanel;
 import client.ui.settings.PenPropertiesPanel;
+import client.ui.tools.Brush;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ class WorkspacePanel extends JPanel {
     private ColorPanel colorPanel;
     private PenPropertiesPanel penPropertiesPanel;
     private FieldPanel fieldPanel;
+    private Brush brush;
 
     WorkspacePanel() {
         setDoubleBuffered(true);
@@ -27,7 +29,7 @@ class WorkspacePanel extends JPanel {
             e.printStackTrace();
         }
 
-        penPropertiesPanel = new PenPropertiesPanel(fieldPanel);
+        penPropertiesPanel = new PenPropertiesPanel(brush);
         colorPanel = new ColorPanel(fieldPanel);
         GridBagLayout gbl = new GridBagLayout();
         setLayout(gbl);
@@ -69,11 +71,11 @@ class WorkspacePanel extends JPanel {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 super.mouseWheelMoved(e);
                 int dSize = - e.getWheelRotation() * e.getWheelRotation() * e.getWheelRotation() / Math.abs(e.getWheelRotation());
-                fieldPanel.setPencilSize(fieldPanel.getPencilSize()+dSize);
+                fieldPanel.setSize(fieldPanel.getPencilSize()+dSize);
                 if (fieldPanel.getPencilSize() > 1000)
-                    fieldPanel.setPencilSize(1000);
+                    fieldPanel.setSize(1000);
                 if (fieldPanel.getPencilSize() < 1)
-                    fieldPanel.setPencilSize(1);
+                    fieldPanel.setSize(1);
                 penPropertiesPanel.updateSize(fieldPanel.getPencilSize());
                 repaint();
 

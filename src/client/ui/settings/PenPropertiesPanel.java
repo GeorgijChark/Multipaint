@@ -1,6 +1,7 @@
 package client.ui.settings;
 
 import client.ui.FieldPanel;
+import client.ui.tools.Brush;
 import graphics.shape.SCircle;
 import graphics.shape.SSqare;
 import graphics.shape.Shape;
@@ -19,7 +20,7 @@ public class PenPropertiesPanel extends FastSettingsPanel {
     private Shape shape;
     private int size;
     private boolean soft;
-    private FieldPanel fieldPanel;
+    private Brush brush;
 
 
     private JSlider sizeSlider;
@@ -28,8 +29,8 @@ public class PenPropertiesPanel extends FastSettingsPanel {
     private JPanel shapeGridPanel;
     private ShapePreview preview;
 
-    public PenPropertiesPanel(FieldPanel fieldPanel) {
-        this.fieldPanel = fieldPanel;
+    public PenPropertiesPanel(Brush brush) {
+        this.brush = brush;
         shape = new SCircle();
         size = 20;
         soft = false;
@@ -39,9 +40,9 @@ public class PenPropertiesPanel extends FastSettingsPanel {
 
     private void initComponents() {
         sizeSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, size);
-        sizeSlider.addChangeListener(new mChageListener());
+        sizeSlider.addChangeListener(new mChangeListener());
         softCheckBox = new JCheckBox("soft", soft);
-        softCheckBox.addChangeListener(new mChageListener());
+        softCheckBox.addChangeListener(new mChangeListener());
         sizeLabel = new JLabel(""+size);
         int rows = 3, cols = 3;
         shapeGridPanel = new JPanel(new GridLayout(rows, cols));
@@ -93,25 +94,25 @@ public class PenPropertiesPanel extends FastSettingsPanel {
         this.size = size;
         sizeLabel.setText("" + size);
         sizeSlider.setValue(size);
-        fieldPanel.setPencilSize(size);
+        brush.setSize(size);
         repaint();
     }
 
     public void updateShape(Shape shape) {
         this.shape = shape;
         preview.setShape(shape);
-        fieldPanel.setShape(shape);
+        brush.setShape(shape);
         repaint();
     }
 
     private void updateSoft(boolean soft) {
         this.soft = soft;
         preview.setSoft(soft);
-        fieldPanel.setSoft(soft);
+        brush.setSoft(soft);
         repaint();
     }
 
-    class mChageListener implements ChangeListener {
+    class mChangeListener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent e) {
             updateSize(sizeSlider.getValue());

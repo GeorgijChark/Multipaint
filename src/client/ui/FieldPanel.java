@@ -205,7 +205,7 @@ public class FieldPanel extends JPanel {
     public void setPencilColor(Color pencilColor) {
         this.pencilColor = pencilColor;
     }
-    public void setPencilSize(int pencilSize) {
+    public void setSize(int pencilSize) {
         this.pencilSize = pencilSize;
     }
     public void setShape(Shape shape) {
