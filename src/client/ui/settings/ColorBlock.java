@@ -1,4 +1,4 @@
-package ui;
+package client.ui.settings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

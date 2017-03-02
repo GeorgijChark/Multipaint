@@ -1,4 +1,6 @@
-package client.ui;
+package client.ui.settings;
+
+import client.ui.FieldPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,4 @@
-package ui;
-
-import client.ui.ColorPanel;
+package client.ui.settings;
 
 import javax.swing.*;
 import java.awt.*;

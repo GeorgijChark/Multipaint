@@ -1,17 +1,14 @@
-package client.ui;
+package client.ui.settings;
 
+import client.ui.FieldPanel;
 import graphics.shape.SCircle;
 import graphics.shape.SSqare;
 import graphics.shape.Shape;
-import ui.BasicShapeButton;
-import ui.ShapePreview;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 /**
@@ -92,7 +89,7 @@ public class PenPropertiesPanel extends FastSettingsPanel {
 
     }
 
-    void updateSize(int size) {
+    public void updateSize(int size) {
         this.size = size;
         sizeLabel.setText("" + size);
         sizeSlider.setValue(size);

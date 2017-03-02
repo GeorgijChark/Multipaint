@@ -1,8 +1,6 @@
-package client.ui;
+package client.ui.settings;
 
-import ui.BasicColorButton;
-import ui.ColorBlock;
-import ui.ColorIndicator;
+import client.ui.FieldPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

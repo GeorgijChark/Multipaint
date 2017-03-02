@@ -1,10 +1,9 @@
-package ui;
+package client.ui.settings;
 
 /**
  * Created by Admin on 28.02.2017.
  */
 
-import client.ui.PenPropertiesPanel;
 import graphics.shape.Shape;
 
 import javax.swing.*;

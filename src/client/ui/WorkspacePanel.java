@@ -1,6 +1,8 @@
 package client.ui;
 
 import client.net.ConnectionManager;
+import client.ui.settings.ColorPanel;
+import client.ui.settings.PenPropertiesPanel;
 
 import javax.swing.*;
 import java.awt.*;
