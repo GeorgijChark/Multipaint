@@ -35,6 +35,8 @@ public class ChatPanel extends JPanel {
 
     public void paintComponent(Graphics g1) {
         Graphics2D g = (Graphics2D) g1;
+        g.setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
         drawBackground(g);
         super.paintComponent(g1);
         g.setColor(Color.GREEN);

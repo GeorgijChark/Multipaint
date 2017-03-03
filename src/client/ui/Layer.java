@@ -1,5 +1,6 @@
 package client.ui;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -14,6 +15,9 @@ public class Layer {
         tempImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         mainGraphics = mainImage.createGraphics();
         tempGraphics = tempImage.getGraphics();
+        ((Graphics2D) mainGraphics).setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        ((Graphics2D) tempGraphics).setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
     }
 
     public Graphics getMainGraphics() {
@@ -24,7 +28,7 @@ public class Layer {
         mainGraphics.drawImage(tempImage, 0, 0, null);
         tempImage = new BufferedImage(mainImage.getWidth(), mainImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
         tempGraphics = tempImage.getGraphics();
-
+        ((Graphics2D) tempGraphics).setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
     }
 
     public Graphics getTempGraphics() {
@@ -39,5 +43,9 @@ public class Layer {
 
     public void setEraseMode(boolean eraseMode) {
         this.eraseMode = eraseMode;
+    }
+
+    public JPanel getPreview(){
+        return new JPanel();
     }
 }

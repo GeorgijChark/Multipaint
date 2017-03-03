@@ -51,7 +51,8 @@ public class Brush extends Tool implements ColoredTool {
         if (!soft) {
             shape.draw(activeLayer.getTempGraphics(), size, e.getX() - size / 2, e.getY() - size / 2);
         } else {
-            shape.softDraw(activeLayer.getTempGraphics(), size, e.getX() - size / 2, e.getY() - size / 2);
+            shape.initSoftShape(size, activeLayer.getTempGraphics().getColor());
+            shape.softDraw(activeLayer.getTempGraphics(),  e.getX() - size / 2, e.getY() - size / 2);
         }
         lastPosition = new int[]{e.getX(), e.getY()};
     }

@@ -78,17 +78,20 @@ public class FieldPanel extends JPanel {
         });
         addMouseListener(tool);
         addMouseMotionListener(tool);
+
+        Cursor cursor = new Cursor(Cursor.CROSSHAIR_CURSOR);
+        setCursor(cursor);
     }
 
     public void paintComponent(Graphics g1) {
         Graphics2D g = (Graphics2D) g1;
         super.paintComponent(g);
-
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.drawImage(backgroundImage, 0, 0, null);
         for (Layer layer : layers) {
             layer.draw(g);
         }
-        if (mousePosition[0] + mousePosition[1] > 0) {
+        if (mousePosition[0] != -1 && mousePosition[1] != -1) {
             tool.drawContour(g, mousePosition[0], mousePosition[1]);
         }
     }

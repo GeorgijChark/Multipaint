@@ -28,6 +28,7 @@ public class BasicShapeButton extends JButton {
 
     @Override
     public void paintComponent(Graphics g) {
+        ((Graphics2D) g).setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.setColor(Color.white);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.black);

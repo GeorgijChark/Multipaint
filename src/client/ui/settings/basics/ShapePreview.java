@@ -22,10 +22,11 @@ public class ShapePreview extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-
+        ((Graphics2D) g).setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.setColor(Color.black);
+        shape.initSoftShape(min(getHeight(), getWidth()) - 2, g.getColor());
         if (soft) {
-            shape.softDraw(g, min(getHeight(), getWidth()) - 2, 1, 1);
+            shape.softDraw(g,  1, 1);
         } else {
             shape.draw(g, min(getHeight(), getWidth()) - 2, 1, 1);
         }

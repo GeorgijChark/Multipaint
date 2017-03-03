@@ -48,6 +48,7 @@ public class ColorIndicator extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        ((Graphics2D) g).setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         ((Graphics2D) g).setStroke(new BasicStroke(5));
         g.setColor(Color.lightGray);
         for(int i = -5*(getWidth()/10); i<getWidth(); i+=10){
