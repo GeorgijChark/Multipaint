@@ -113,7 +113,7 @@ public class ConnectionManager implements Runnable {
         StringStream stringStream = new StringStream(comText);
         String type = stringStream.next();
         Command com = new Command("line");
-        com.addArgument(fieldPanel.getMainGraphics());
+        com.addArgument(fieldPanel.getGraphics());
         for (int i = 1; i < com.getNumberOfArguments(); i++) {
             com.addArgument(stringStream.nextInt());
         }

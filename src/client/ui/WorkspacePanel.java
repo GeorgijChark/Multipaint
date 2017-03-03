@@ -4,6 +4,7 @@ import client.net.ConnectionManager;
 import client.ui.settings.ColorPanel;
 import client.ui.settings.PenPropertiesPanel;
 import client.ui.tools.Brush;
+import client.ui.tools.ColoredTool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,8 +30,7 @@ class WorkspacePanel extends JPanel {
             e.printStackTrace();
         }
 
-        penPropertiesPanel = new PenPropertiesPanel(brush);
-        colorPanel = new ColorPanel(fieldPanel);
+
         GridBagLayout gbl = new GridBagLayout();
         setLayout(gbl);
         GridBagConstraints c = new GridBagConstraints();
@@ -47,6 +47,9 @@ class WorkspacePanel extends JPanel {
         c.fill = GridBagConstraints.NONE;
         c.gridx = 2;
         c.anchor = GridBagConstraints.NORTHEAST;
+        brush = (Brush) fieldPanel.getTool();
+        penPropertiesPanel = new PenPropertiesPanel(brush);
+        colorPanel = new ColorPanel(brush);
         JPanel settingsPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         settingsPanel.add(penPropertiesPanel);
         settingsPanel.add(colorPanel);

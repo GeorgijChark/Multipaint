@@ -12,7 +12,7 @@ public class Line {
     public Line(int[] first, int[] last, int size, Color color, graphics.shape.Shape shape) {
         this.first = first;
         this.last = last;
-        this.size = size;
+        this.size = size/2;
         this.color = color;
         this.shape = shape;
     }

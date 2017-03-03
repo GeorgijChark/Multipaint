@@ -1,6 +1,7 @@
 package client.ui.settings;
 
 import client.ui.FieldPanel;
+import client.ui.tools.ColoredTool;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,14 +14,16 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
     private ColorBlock redBlock, greenBlock, blueBlock, alphaBlock;
     private ColorIndicator indicator;
     private JPanel basicColorPanel;
+    private ColoredTool tool;
 
 
-    public ColorPanel(FieldPanel fieldPanel) {
+    public ColorPanel(ColoredTool coloredTool) {
         super();
-        fp = fieldPanel;
+        tool = coloredTool;
         setBackground(Color.white);
         initComponents();
         initLayout();
+
 
 
     }
@@ -79,9 +82,6 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
         add(pairPanel, constraints);
     }
 
-    public void setFp(FieldPanel fp) {
-        this.fp = fp;
-    }
 
     public Color getColor() {
         return new Color(redBlock.getValue(), greenBlock.getValue(), blueBlock.getValue(), alphaBlock.getValue());
@@ -93,14 +93,14 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
         blueBlock.setValue(color.getBlue());
         alphaBlock.setValue(color.getAlpha());
         indicator.setColor(color);
-        fp.setPencilColor(getColor());
+        tool.setColor(getColor());
         repaint();
         getParent().getParent().getParent().repaint();
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        fp.setPencilColor(getColor());
+        tool.setColor(getColor());
         repaint();
         getParent().getParent().getParent().repaint();
         redBlock.setBackgroundColor(getColor());

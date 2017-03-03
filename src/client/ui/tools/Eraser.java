@@ -9,7 +9,7 @@ public class Eraser extends Tool {
 
 
     @Override
-    void drawContour(Graphics g) {
+    public void drawContour(Graphics g, int x, int y) {
 
     }
 
