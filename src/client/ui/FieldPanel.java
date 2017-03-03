@@ -19,11 +19,11 @@ public class FieldPanel extends JPanel {
     private static final int BACKGROUND_CELL_SIZE = 5;
 
     private int[] mousePosition;
-    private int pencilSize;
     private Tool tool;
     private ArrayList<Layer> layers = new ArrayList<>();
     private Layer activeLayer;
     private BufferedImage backgroundImage;
+
     FieldPanel(int fieldWidth, int fieldHeight) throws IOException {
         initFrame(fieldWidth, fieldHeight);
         initBackground();
@@ -45,6 +45,9 @@ public class FieldPanel extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                if (e.getX() < 0 || e.getY() < 0 || e.getX() > getWidth() || e.getY() > getHeight()) {
+                    mousePosition = new int[]{-1, -1};
+                }
                 repaint();
             }
 
@@ -75,19 +78,6 @@ public class FieldPanel extends JPanel {
         });
         addMouseListener(tool);
         addMouseMotionListener(tool);
-    }
-
-    public Tool getTool() {
-        return tool;
-    }
-
-    public void setTool(Tool tool) {
-        removeMouseListener(this.tool);
-        removeMouseMotionListener(this.tool);
-        this.tool = tool;
-        this.tool.setActiveLayer(activeLayer);
-        addMouseListener(this.tool);
-        addMouseMotionListener(this.tool);
     }
 
     public void paintComponent(Graphics g1) {
@@ -126,16 +116,22 @@ public class FieldPanel extends JPanel {
         setVisible(true);
     }
 
-    public int getPencilSize() {
-        return pencilSize;
-    }
-
-    public void setSize(int pencilSize) {
-        this.pencilSize = pencilSize;
-    }
-
     public void setConnectionManager(ConnectionManager connectionManager) {
 //        this.connectionManager = connectionManager;
     }
+
+    public Tool getTool() {
+        return tool;
+    }
+
+    public void setTool(Tool tool) {
+        removeMouseListener(this.tool);
+        removeMouseMotionListener(this.tool);
+        this.tool = tool;
+        this.tool.setActiveLayer(activeLayer);
+        addMouseListener(this.tool);
+        addMouseMotionListener(this.tool);
+    }
+
 }
 

@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class FontFactory {
 
-    public static final int textSize = 25;
+    public static final int textSize = 20;
     private static final String messageFontName = "Century Gothic";
     public static Font
             MESSAGE = new Font(messageFontName, 0, textSize),

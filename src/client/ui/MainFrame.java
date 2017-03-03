@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
 
 
     private void initFrame() {
-        setTitle("Client");
+        setTitle("Multipaint");
         setBackground(Color.CYAN);
         setMinimumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));

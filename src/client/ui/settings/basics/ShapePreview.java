@@ -1,4 +1,4 @@
-package client.ui.settings;
+package client.ui.settings.basics;
 
 import graphics.shape.Shape;
 

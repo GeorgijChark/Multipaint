@@ -1,6 +1,8 @@
-package client.ui.settings;
+package client.ui.settings.panels;
 
-import client.ui.FieldPanel;
+import client.ui.settings.basics.BasicColorButton;
+import client.ui.settings.basics.ColorBlock;
+import client.ui.settings.basics.ColorIndicator;
 import client.ui.tools.ColoredTool;
 
 import javax.swing.*;
@@ -8,14 +10,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-import static java.lang.StrictMath.*;
-
 public class ColorPanel extends FastSettingsPanel implements ChangeListener {
     private ColorBlock redBlock, greenBlock, blueBlock, alphaBlock;
     private ColorIndicator indicator;
-    private JPanel basicColorPanel;
-    private ColoredTool tool;
+    private JPanel basicColorsPanel;
 
+    private ColoredTool tool;
 
     public ColorPanel(ColoredTool coloredTool) {
         super();
@@ -41,14 +41,13 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
         indicator = new ColorIndicator();
 
         int cols = 7;
-        basicColorPanel = new JPanel(new GridLayout(3, cols));
-        int[] colorComponent = new int[3];
-        for (int i = 0; i < 3; i++) {
+        basicColorsPanel = new JPanel(new GridLayout(4, cols));
+        int[] colorComponent = new int[4];
+        for (int i = 0; i < 4; i++) {
             for (int j = 0; j < cols; j++) {
-                colorComponent[i] = (int) abs(255 * (sin(j * PI / (2 * (cols - 1)))));
-                colorComponent[(i + 1) % 3] = (int) abs(255 * (sin(j * PI / (2 * (cols - 1)) + PI / 2)));
-                colorComponent[(i + 2) % 3] = (int) abs(255 * (sin(j * PI / (2 * (cols - 1)) - PI / 2)));
-                basicColorPanel.add(new BasicColorButton(new Color(colorComponent[0], colorComponent[1], colorComponent[2]), this));
+                colorComponent = new int[]{255*j/(cols-1),255*j/(cols-1),255*j/(cols-1), 0} ;
+                colorComponent[i] = 255;
+                basicColorsPanel.add(new BasicColorButton(new Color(colorComponent[0], colorComponent[1], colorComponent[2]), this));
             }
         }
 
@@ -78,7 +77,7 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
         constraints.fill = GridBagConstraints.BOTH;
 
         pairPanel.add(indicator);
-        pairPanel.add(basicColorPanel);
+        pairPanel.add(basicColorsPanel);
         add(pairPanel, constraints);
     }
 
@@ -110,4 +109,8 @@ public class ColorPanel extends FastSettingsPanel implements ChangeListener {
     }
 
 
+    @Override
+    public void updateValues() {
+        setColor(tool.getColor());
+    }
 }

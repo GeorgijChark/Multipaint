@@ -1,50 +1,33 @@
 package client.ui.tools;
 
 import client.ui.Layer;
+import graphics.shape.*;
+import graphics.shape.Shape;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
-public class Eraser extends Tool {
+public class Eraser extends Brush {
 
 
-    @Override
-    public void drawContour(Graphics g, int x, int y) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
+    public Eraser(int size, boolean soft, Shape shape) {
+        super(size, soft, shape);
+        isColored = false;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        activeLayer.setEraseMode(true);
+        super.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        ((Graphics2D) activeLayer.getMainGraphics()).setComposite(AlphaComposite.DstOut);
+        activeLayer.combine();
+        ((Graphics2D)  activeLayer.getMainGraphics()).setComposite(AlphaComposite.SrcOver);
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
 
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
 }

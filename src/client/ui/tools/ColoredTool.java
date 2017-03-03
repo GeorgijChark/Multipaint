@@ -4,4 +4,5 @@ import java.awt.*;
 
 public interface ColoredTool {
     void setColor(Color color);
+    Color getColor();
 }

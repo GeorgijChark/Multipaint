@@ -1,7 +1,9 @@
-package client.ui.settings;
+package client.ui.settings.panels;
 
-import client.ui.FieldPanel;
+import client.ui.settings.basics.BasicShapeButton;
+import client.ui.settings.basics.ShapePreview;
 import client.ui.tools.Brush;
+import client.ui.tools.Tool;
 import graphics.shape.SCircle;
 import graphics.shape.SSqare;
 import graphics.shape.Shape;
@@ -110,6 +112,13 @@ public class PenPropertiesPanel extends FastSettingsPanel {
         preview.setSoft(soft);
         brush.setSoft(soft);
         repaint();
+    }
+
+    @Override
+    public void updateValues() {
+        updateSize(brush.getSize());
+        updateShape(brush.getShape());
+        updateSoft(brush.isSoft());
     }
 
     class mChangeListener implements ChangeListener {

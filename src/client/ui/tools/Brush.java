@@ -8,44 +8,35 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class Brush extends Tool implements ColoredTool {
-    private int size;
-    private boolean soft;
-    private Shape shape;
-    private Color color;
-    private int[] lastPosition;
-    private int dx, dy;
+    protected int size;
+    protected boolean soft;
+    protected Shape shape;
+    protected Color color;
+    protected int[] lastPosition;
+    protected int dx, dy;
     public Brush(int size, boolean soft, Shape shape) {
         this.size = size;
         this.soft = soft;
         this.shape = shape;
+        isBrushed = true;
+        isColored = true;
+        color = Color.black;
     }
+
 
 
     public void setActiveLayer(Layer activeLayer) {
         this.activeLayer = activeLayer;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public void setSoft(boolean soft) {
-        this.soft = soft;
-    }
-
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
-
-
     @Override
     public void drawContour(Graphics g, int x, int y) {
         g.setColor(Color.white);
-        shape.drawContour(g, size+2, x - size / 2 - 1, y - size / 2 - 1);
+        shape.drawContour(g, size + 2, x - size / 2 - 1, y - size / 2 - 1);
         g.setColor(Color.black);
         shape.drawContour(g, size, x - size / 2, y - size / 2);
         g.setColor(Color.white);
-        shape.drawContour(g, size-2, x - size / 2 + 1, y - size / 2 + 1);
+        shape.drawContour(g, size - 2, x - size / 2 + 1, y - size / 2 + 1);
     }
 
     @Override
@@ -91,7 +82,7 @@ public class Brush extends Tool implements ColoredTool {
 
     }
 
-    private void drawLine(int x, int y) {
+    protected void drawLine(int x, int y) {
         if (soft) {
             ((Graphics2D) activeLayer.getTempGraphics()).setComposite(AlphaComposite.SrcOver);
             dx += (Math.abs(lastPosition[0] - x));
@@ -106,8 +97,37 @@ public class Brush extends Tool implements ColoredTool {
         }
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public boolean isSoft() {
+        return soft;
+    }
+
+    public void setSoft(boolean soft) {
+        this.soft = soft;
+    }
+
+    public Shape getShape() {
+        return shape;
+    }
+
+    public void setShape(Shape shape) {
+        this.shape = shape;
+    }
+
     @Override
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    @Override
+    public Color getColor() {
+        return color;
     }
 }

@@ -1,10 +1,10 @@
 package client.ui;
 
 import client.net.ConnectionManager;
-import client.ui.settings.ColorPanel;
-import client.ui.settings.PenPropertiesPanel;
+import client.ui.settings.panels.ColorPanel;
+import client.ui.settings.panels.PenPropertiesPanel;
+import client.ui.settings.panels.ToolPropertiesPanel;
 import client.ui.tools.Brush;
-import client.ui.tools.ColoredTool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,10 +15,9 @@ import java.io.IOException;
 
 class WorkspacePanel extends JPanel {
     private static final int fieldWidth = 800, fieldHeight = 800;
-    private ColorPanel colorPanel;
-    private PenPropertiesPanel penPropertiesPanel;
+    private final ToolPropertiesPanel toolPropertiesPanel;
     private FieldPanel fieldPanel;
-    private Brush brush;
+    private Brush tool;
 
     WorkspacePanel() {
         setDoubleBuffered(true);
@@ -47,14 +46,10 @@ class WorkspacePanel extends JPanel {
         c.fill = GridBagConstraints.NONE;
         c.gridx = 2;
         c.anchor = GridBagConstraints.NORTHEAST;
-        brush = (Brush) fieldPanel.getTool();
-        penPropertiesPanel = new PenPropertiesPanel(brush);
-        colorPanel = new ColorPanel(brush);
-        JPanel settingsPanel = new JPanel(new GridLayout(2, 1, 10, 10));
-        settingsPanel.add(penPropertiesPanel);
-        settingsPanel.add(colorPanel);
-        gbl.setConstraints(settingsPanel, c);
-        add(settingsPanel);
+        tool = (Brush) fieldPanel.getTool();
+        toolPropertiesPanel = new ToolPropertiesPanel(tool);
+        gbl.setConstraints(toolPropertiesPanel, c);
+        add(toolPropertiesPanel);
     }
 
     FieldPanel getFieldPanel() {
@@ -69,20 +64,25 @@ class WorkspacePanel extends JPanel {
         fieldPanel = new FieldPanel(fieldWidth, fieldHeight);
         fieldPanel.setPreferredSize(new Dimension(fieldWidth, fieldHeight));
         fieldPanel.setDoubleBuffered(true);
-        fieldPanel.addMouseWheelListener(new MouseAdapter() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                super.mouseWheelMoved(e);
-                int dSize = - e.getWheelRotation() * e.getWheelRotation() * e.getWheelRotation() / Math.abs(e.getWheelRotation());
-                fieldPanel.setSize(fieldPanel.getPencilSize()+dSize);
-                if (fieldPanel.getPencilSize() > 1000)
-                    fieldPanel.setSize(1000);
-                if (fieldPanel.getPencilSize() < 1)
-                    fieldPanel.setSize(1);
-                penPropertiesPanel.updateSize(fieldPanel.getPencilSize());
-                repaint();
+        fieldPanel.addMouseWheelListener(new mMouseWheelListener());
+    }
 
+    public class mMouseWheelListener extends MouseAdapter {
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+
+            super.mouseWheelMoved(e);
+            if(tool.isBrushed()) {
+                int dSize = -e.getWheelRotation() * e.getWheelRotation() * e.getWheelRotation() / Math.abs(e.getWheelRotation());
+                tool.setSize(((Brush) tool).getSize() + dSize);
+                if (((Brush) tool).getSize() > 1000)
+                    ((Brush) tool).setSize(1000);
+                if (((Brush) tool).getSize() < 1)
+                    ((Brush) tool).setSize(1);
+                toolPropertiesPanel.update();
+                repaint();
             }
-        });
+
+        }
     }
 }
